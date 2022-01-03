@@ -1,0 +1,5 @@
+<div class="d-flex" style="margin: 20px; border: 1px solid;"
+    routerLink="project/{{project.id}}">
+  <div>Project name: {{ project.name }}</div>
+  <button class="btn btn-primary" (click)="delete($event, project.id)">X</button>
+</div>

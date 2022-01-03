@@ -1,0 +1,20 @@
+<div class="container">
+  <h3 class="d-flex justify-content-center">Projects Manager</h3>
+  <button (click)="showProjects()">Show Projects</button>
+  <hr />
+  <div>
+    <label for="new-project">Project name: </label>
+    <input id="new-project" #projectName />
+
+    <!-- (click) passes input value to add() and then clears the input -->
+    <button
+      class="add-button"
+      (click)="addProject(projectName.value); projectName.value = ''"
+    >
+      Add Project
+    </button>
+  </div>
+  <hr>
+  <app-project *ngFor="let project of ProjectList" [project]="project"></app-project>
+</div>
+

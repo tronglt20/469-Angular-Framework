@@ -1,0 +1,21 @@
+<div class="root" *ngIf="project">
+  <div class="board">
+    <div class="board-bar">
+      <p class="board-name">{{ project.name }}</p>
+      <p class="createdBy">Created By: {{ project.createdBy }}</p>
+      <input [(ngModel)]="project.name">
+      <button type="button" class="btn btn-outline-primary" (click)="updateProjectName()">Save</button>
+      <button class="btn btn-primary" (click)="goBack()">Go back</button>
+
+    </div>
+    <div class="board-wrapper">
+      <div class="board-columns">
+        <!-- Business column -->
+        <app-business *ngFor="let bus of businessList" [business]="bus" class="board-column"></app-business>
+        
+        <!-- Add Business  -->
+        <div class="board-column-add" (click)="addBusiness()">+</div>
+      </div>
+    </div>
+  </div>
+</div>
