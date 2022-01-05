@@ -4,7 +4,7 @@
       <p class="board-name">{{ project.name }}</p>
       <p class="createdBy">Created By: {{ project.createdBy }}</p>
       <input [(ngModel)]="project.name">
-      <button type="button" class="btn btn-outline-primary" (click)="updateProjectName()">Save</button>
+      <button type="button" class="btn btn-outline-primary" (click)="updateProjectName(project.name)">Save</button>
       <button class="btn btn-primary" (click)="goBack()">Go back</button>
 
     </div>
@@ -14,7 +14,7 @@
         <app-business *ngFor="let bus of businessList" [business]="bus" class="board-column"></app-business>
         
         <!-- Add Business  -->
-        <div class="board-column-add" (click)="addBusiness()">+</div>
+        <div class="board-column add" (click)="openDialog()">+</div>
       </div>
     </div>
   </div>

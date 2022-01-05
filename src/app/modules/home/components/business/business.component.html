@@ -1,0 +1,15 @@
+  <!-- column  -->
+  <div *ngIf="business">
+    <div class="d-flex mb-3">
+      <div class="column-title">{{business.name}}</div>
+      <div class="count">{{cardList.length}}</div>
+    </div>
+    <p>Id: {{business.id}}</p>
+    <div class="tasks-container">
+      <!-- Card -->
+      <app-card *ngFor="let card of cardList" [card]="card"></app-card>
+
+      <!-- Add Card  -->
+      <div class="task addTask" (click)="openDialog()">Add a task...</div>
+    </div>
+  </div>

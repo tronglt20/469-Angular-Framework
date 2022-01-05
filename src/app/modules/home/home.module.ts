@@ -5,8 +5,12 @@ import { RouterModule } from '@angular/router';
 import { ProjectComponent } from './components/project/project.component';
 import { ProjectDetailComponent } from './components/project-detail/project-detail.component';
 import { FormsModule } from '@angular/forms';
-import { BusinessComponent } from './components/project-detail/business/business.component';
-import { CardComponent } from './components/project-detail/card/card.component';
+import { BusinessComponent } from './components/business/business.component';
+import { CardComponent } from './components/card/card.component';
+import { FormCreateBusinessComponent } from './dialogs/form-create-business/form-create-business.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { FormCreateCardComponent } from './dialogs/form-create-card/form-create-card.component';
+
 
 @NgModule({
   declarations: [
@@ -14,7 +18,8 @@ import { CardComponent } from './components/project-detail/card/card.component';
     ProjectComponent,
     ProjectDetailComponent,
     BusinessComponent,
-    CardComponent
+    CardComponent,
+    FormCreateCardComponent,
   ],
   imports: [
     FormsModule,
@@ -22,7 +27,12 @@ import { CardComponent } from './components/project-detail/card/card.component';
     RouterModule.forChild([
       {path: '', component: HomeComponent},
       {path: 'project/:id', component: ProjectDetailComponent}
-    ])
+    ]),
+    MatDialogModule,
+  ],
+  entryComponents:[
+    FormCreateBusinessComponent, 
+    FormCreateCardComponent
   ]
 })
 export class HomeModule { }
