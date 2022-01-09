@@ -7,10 +7,14 @@ import { ProjectDetailComponent } from './components/project-detail/project-deta
 import { FormsModule } from '@angular/forms';
 import { BusinessComponent } from './components/business/business.component';
 import { CardComponent } from './components/card/card.component';
-import { FormCreateBusinessComponent } from './dialogs/form-create-business/form-create-business.component';
 import { MatDialogModule } from '@angular/material/dialog';
-import { FormCreateCardComponent } from './dialogs/form-create-card/form-create-card.component';
+import { CardDialog } from './dialogs/card-dialog/card-dialog';
 
+import { DragDropModule} from '@angular/cdk/drag-drop';
+import { BusinessDialog } from './dialogs/business-dialog/business-dialog';
+import { TagDialog } from './dialogs/tag-dialog/tag-dialog.component';
+import { TodoComponent } from './components/todo/todo.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -19,7 +23,9 @@ import { FormCreateCardComponent } from './dialogs/form-create-card/form-create-
     ProjectDetailComponent,
     BusinessComponent,
     CardComponent,
-    FormCreateCardComponent,
+    TagDialog,
+    CardDialog,
+    TodoComponent,
   ],
   imports: [
     FormsModule,
@@ -29,10 +35,11 @@ import { FormCreateCardComponent } from './dialogs/form-create-card/form-create-
       {path: 'project/:id', component: ProjectDetailComponent}
     ]),
     MatDialogModule,
+    DragDropModule,
+    NgbModule
   ],
   entryComponents:[
-    FormCreateBusinessComponent, 
-    FormCreateCardComponent
+    BusinessDialog,
   ]
 })
 export class HomeModule { }

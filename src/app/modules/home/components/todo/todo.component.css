@@ -1,0 +1,18 @@
+.isCompeled {
+  width: 22px;
+  height: 22px;
+  background-color: white;
+  cursor: pointer;
+}
+
+.fa-check:before {
+  font-size: 22px;
+  color: #2171c1;
+}
+.todo{
+  padding: 6px 10px;
+  margin-bottom: 6px;
+}
+.todo:hover{
+  background-color: #ddd;
+}

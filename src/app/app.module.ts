@@ -6,8 +6,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
-import {MaterialExampleModule} from '../material.module';
-
+import { MaterialExampleModule } from '../material.module';
 
 @NgModule({
   declarations: [
@@ -20,7 +19,7 @@ import {MaterialExampleModule} from '../material.module';
     FormsModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
-    MaterialExampleModule
+    MaterialExampleModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

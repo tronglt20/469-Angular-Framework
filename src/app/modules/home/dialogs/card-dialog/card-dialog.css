@@ -1,0 +1,110 @@
+.cardDialog .mat-dialog-container {
+  background-color: #edeff0 !important;
+}
+
+.card-container {
+  padding: 0 15px;
+}
+.content {
+  flex: 70%;
+  height: 100%;
+  border-right: 1px solid gray;
+  padding-right: 20px;
+}
+
+.sidebar {
+  flex: 30%;
+  height: 100%;
+}
+.card-title {
+  width: 80%;
+  cursor: pointer;
+  font-size: 20px;
+  font-weight: 700;
+  border: 0px solid;
+  background-color: #edeff0;
+  padding: 0px;
+}
+.card-title:hover {
+  background-color: #e2e2e2;
+}
+.card-title:focus {
+  background-color: white;
+  border: 0px solid #2171c1;
+  outline: none;
+}
+
+.user-avt {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+.item-header {
+  color: gray;
+  font-size: 16px;
+  font-weight: 600;
+  text-transform: uppercase;
+  margin-bottom: 18px;
+}
+.tag-on-card {
+  min-width: 26px;
+  border-radius: 3px;
+  background-color: #3bade3;
+  font-size: 14px;
+  font-weight: 600;
+  color: #fff;
+  padding: 6px 8px;
+}
+p {
+  margin-bottom: 0px;
+}
+.caption {
+  font-size: 16px;
+  font-weight: 600;
+}
+.description-content {
+  background-color: white;
+  padding: 10px;
+  margin-top: 10px;
+}
+.add-btn {
+  font-size: 26px;
+  cursor: pointer;
+  margin-left: 10px;
+}
+.todoInput {
+  border: 0px solid;
+  padding: 10px 16px;
+  font-size: 16px;
+  width: 100%;
+  background-color: #edeff0;
+}
+.todoInput:focus {
+  outline: none;
+  background-color: white;
+  transition: ease 0.2s;
+}
+
+
+/* Sidebar  */
+.sidebar {
+  padding-left: 20px;
+}
+.sidebar-header {
+  margin-top: 25px;
+  font-weight: 700;
+  font-size: 16px;
+  color: #2171c1;
+}
+.add-to-task-btn {
+  width: 100%;
+  margin-top: 10px;
+  height: 32px;
+  background-color: #2171c1;
+  box-shadow: 0 1px 0 0 #3090ca;
+  border-radius: 3px;
+  padding: 6px 8px 6px 12px;
+  color: white;
+  cursor: pointer;
+}

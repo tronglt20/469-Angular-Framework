@@ -1,0 +1,12 @@
+<div
+  *ngIf="todo"
+  class="todo d-flex align-items-center"
+  (click)="updateTodoStatus()"
+>
+  <div class="isCompeled">
+    <i *ngIf="todo.isCompleted" class="fa fa-check"></i>
+  </div>
+  <div class="ms-3">
+    {{ todo.name }}
+  </div>
+</div>

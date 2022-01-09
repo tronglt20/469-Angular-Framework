@@ -1,34 +1,35 @@
-import { Component, DoCheck, OnInit } from '@angular/core';
+import { Component, DoCheck, HostListener, OnInit, ViewChild } from '@angular/core';
 import { SharedService } from '../../shared/services/shared.services';
 import { ProjectModel } from '../models/project.model';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+  styleUrls: ['./home.component.css'],
 })
 export class HomeComponent implements OnInit {
-  constructor(private service: SharedService) { }
+  constructor(private service: SharedService) {}
 
   ngOnInit(): void {
-    this.loadProjectList()
+    this.loadProjectList();
   }
 
-  ProjectList: ProjectModel[] 
+  projectList: ProjectModel[] = [];
 
-  loadProjectList(){
-    this.service.getAll<ProjectModel>('project')
-    .subscribe(data => this.ProjectList = data)
+  loadProjectList() {
+    this.service
+      .getAll<ProjectModel>('project')
+      .subscribe((data) => (this.projectList = data));
   }
 
-  showProjects(){
-    console.log(this.ProjectList)
+  addProject(name: string) {
+    name = name.trim();
+    if (!name) return;
+    this.service
+      .post<ProjectModel>('project', `"${name}"`)
+      .subscribe((project) => {
+          this.loadProjectList();
+      });
   }
 
-  addProject(name: string){
-    name = name.trim()
-    if(!name) return;
-    this.service.post<ProjectModel>('project', `"${name}"`)
-    .subscribe(project => {this.ProjectList.push(project); console.log(project)})
-  }
 }

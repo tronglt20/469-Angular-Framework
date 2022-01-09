@@ -1,0 +1,18 @@
+.tag{
+    height: 35px;
+    /* padding: 10px 12px; */
+    padding: 0 10px;
+    color: white;
+    background-color: tomato;
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.deleteTag{
+    padding: 0 5px;
+    border: 1px solid #999;
+    cursor: pointer;
+    background-color: #fff;
+    color: #000;
+}

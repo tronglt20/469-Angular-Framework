@@ -1,0 +1,143 @@
+<div *ngIf="card">
+  <div class="d-flex card-container">
+    <!-- Content  -->
+    <div class="content">
+      <!-- Card Title  -->
+      <input
+        type="text"
+        class="form-control card-title"
+        #cardNameInput
+        [(ngModel)]="card.name"
+        tabindex="-1"
+      />
+      <!-- End Card Title  -->
+      <!-- Session  -->
+      <div class="d-flex mt-3">
+        <div class="assign me-5">
+          <div class="item-header">MEMBERS</div>
+          <div class="user-assign d-flex">
+            <ng-container *ngFor="let user of cardAssigns">
+              <img src="{{user.imagePath}}" alt="" class="me-2 user-avt" />
+            </ng-container>
+            <div ngbDropdown class="tag">
+              <div class="add-btn" id="tagsMenu" ngbDropdownToggle>
+                <i class="fa fa-plus-square"></i>
+              </div>
+              <div ngbDropdownMenu aria-labelledby="tagsMenu">
+                <ng-container *ngFor="let user of userList">
+                  <button
+                    ngbDropdownItem
+                    (click)="addCardAssign(user.id)"
+                    class="d-flex"
+                  >
+                    <img src="{{user.imagePath}}" class="me-2 user-avt" />
+                    {{user.name}}
+                  </button>
+                </ng-container>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card-tag">
+          <div class="item-header">LABELS</div>
+          <div class="d-flex">
+            <ng-container *ngFor="let tag of cardTags">
+              <div class="tag-on-card me-2"><p>{{tag.tagName}}</p></div>
+            </ng-container>
+            <div ngbDropdown class="tag">
+              <div class="add-btn" id="tagsMenu" ngbDropdownToggle>
+                <i class="fa fa-plus-square"></i>
+              </div>
+              <div ngbDropdownMenu aria-labelledby="tagsMenu">
+                <ng-container *ngFor="let tag of tagList">
+                  <button ngbDropdownItem (click)="addCardTag(tag.id)">
+                    {{tag.name}}
+                  </button>
+                </ng-container>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- End Session  -->
+      <!-- Description  -->
+      <div class="description mt-3">
+        <div class="caption">Description</div>
+        <div class="description-content">Hello world</div>
+      </div>
+      <!-- End Description  -->
+      <!-- Todo  -->
+      <div class="todo-bos mt-5">
+        <div class="caption">To-Do</div>
+        <div class="todolist ms-4">
+          <ng-container *ngFor="let todo of todoList">
+            <app-todo [todo]="todo"></app-todo>
+          </ng-container>
+          <div class="mt-2">
+            <input
+              type="text"
+              placeholder="Thêm To-do ..."
+              class="todoInput"
+              tabindex="-1"
+              #todoNameInput
+              (keydown.enter)="addTodo(todoNameInput.value); todoNameInput.value=''"
+            />
+          </div>
+        </div>
+      </div>
+      <!-- End Todo  -->
+    </div>
+    <!-- Sidebar  -->
+    <div class="sidebar">
+      <div class="sidebar-header">ADD TO TASK</div>
+      <div class="add-to-task-btn">To-Do</div>
+      <!-- Member  -->
+      <div ngbDropdown class="tag">
+        <div class="add-to-task-btn" id="usersMenu" ngbDropdownToggle>
+          Member
+        </div>
+        <div ngbDropdownMenu aria-labelledby="usersMenu">
+          <ng-container *ngFor="let user of userList">
+            <button
+              ngbDropdownItem
+              (click)="addCardAssign(user.id)"
+              class="d-flex"
+            >
+              <img src="{{user.imagePath}}" class="me-2 user-avt" />
+              {{user.name}}
+            </button>
+          </ng-container>
+        </div>
+      </div>
+      <!-- End Member  -->
+      <!-- Label  -->
+      <div ngbDropdown>
+        <div class="add-to-task-btn" id="tagsMenu" ngbDropdownToggle>Label</div>
+        <div ngbDropdownMenu aria-labelledby="tagsMenu">
+          <ng-container *ngFor="let tag of tagList">
+            <button ngbDropdownItem (click)="addCardTag(tag.id)">
+              {{tag.name}}
+            </button>
+          </ng-container>
+        </div>
+      </div>
+      <!-- End Label  -->
+    </div>
+  </div>
+</div>
+
+<!-- Card create  -->
+<div *ngIf="!card">
+  <div class="form-group">
+    <h3>Card name</h3>
+    <hr />
+    <input
+      type="text"
+      class="form-control"
+      #cardName
+      placeholder="Task title"
+    />
+  </div>
+  <br />
+  <button class="btn btn-primary" (click)="addCard(cardName.value)">Add</button>
+</div>

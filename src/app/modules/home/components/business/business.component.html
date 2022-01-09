@@ -1,15 +1,19 @@
   <!-- column  -->
   <div *ngIf="business">
     <div class="d-flex mb-3">
-      <div class="column-title">{{business.name}}</div>
+      <div class="column-title">{{business.id}}. {{business.name}}</div>
       <div class="count">{{cardList.length}}</div>
     </div>
-    <p>Id: {{business.id}}</p>
-    <div class="tasks-container">
+    <!-- <p>Id: {{business.id}}</p> -->
+    <div class="tasks-container" 
+      cdkDropList 
+      [cdkDropListData]="cardList"
+      (cdkDropListDropped)="drop($event)" 
+    >
       <!-- Card -->
-      <app-card *ngFor="let card of cardList" [card]="card"></app-card>
+      <app-card *ngFor="let card of cardList" [card]="card" [projectId]="business.projectId"></app-card>
 
       <!-- Add Card  -->
-      <div class="task addTask" (click)="openDialog()">Add a task...</div>
+      <div class="task addTask" (click)="addCardDialog()">Add a task...</div>
     </div>
   </div>

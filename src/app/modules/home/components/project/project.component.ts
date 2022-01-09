@@ -19,8 +19,6 @@ export class ProjectComponent implements OnInit {
 
   delete(event: Event, id: number){
     event.stopPropagation();
-    console.log(id)
-    this.service.delete<ProjectModel>('project', id).subscribe()
+    this.service.delete<ProjectModel>(`project/${id}`).subscribe()
   }
-
 }

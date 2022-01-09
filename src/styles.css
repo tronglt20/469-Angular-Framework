@@ -1,2 +1,3 @@
 @import url("./main-style.css");
 @import "../node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css";
+@import "../node_modules/font-awesome/css/font-awesome.min.css";

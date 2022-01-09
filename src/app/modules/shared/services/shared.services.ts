@@ -36,8 +36,8 @@ export class SharedService{
         .pipe(catchError((error) => this.handleError(error, url)));
     }
 
-    delete<T>(url: string, id: number): Observable<T>{
-        return this.http.delete<T>(`${this.APIUrl}/${url}/${id}`, this.httpOptions)
+    delete<T>(url: string): Observable<T>{
+        return this.http.delete<T>(`${this.APIUrl}/${url}`, this.httpOptions)
         .pipe(catchError((error) => this.handleError(error, url)));
     }
 

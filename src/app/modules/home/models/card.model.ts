@@ -7,6 +7,7 @@ export class CardModel{
     description: string;
     priority: Priority;
     businessId: number;
+    index: number
 
     public constructor(init?: Partial<CardModel>) {
         Object.assign(this, init);
