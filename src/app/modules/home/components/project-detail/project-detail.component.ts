@@ -69,6 +69,7 @@ export class ProjectDetailComponent implements OnInit {
       data: { id: this.projectId },
     });
     dialogRef.afterClosed().subscribe((result) => this.loadBusinessList());
+    return this.businessList;
   }
 
   addTagDialog() {

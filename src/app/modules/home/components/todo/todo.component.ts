@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, DoCheck, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { SharedService } from 'src/app/modules/shared/services/shared.services';
 import { TodoModel } from '../../models/todo.model';
 
@@ -11,14 +11,17 @@ export class TodoComponent implements OnInit {
   @Input() todo: TodoModel;
   constructor(private service: SharedService) { }
 
+
   ngOnInit(): void {
   }
 
   updateTodoStatus(){
-    let isCompleted = !this.todo.isCompleted;
+    var self = this;
+    self.todo.isCompleted = !this.todo.isCompleted;
     this.service
-      .put<TodoModel>(`todos/${this.todo.id}/iscompleted`, `"${isCompleted}"`)
+      .put<TodoModel>(`todos/${this.todo.id}/iscompleted`, `"${self.todo.isCompleted}"`)
       .subscribe();
+    return self;
   }
 
 }

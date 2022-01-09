@@ -15,6 +15,7 @@ import { BusinessDialog } from './dialogs/business-dialog/business-dialog';
 import { TagDialog } from './dialogs/tag-dialog/tag-dialog.component';
 import { TodoComponent } from './components/todo/todo.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import {MatDatepickerModule} from '@angular/material/datepicker';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     ]),
     MatDialogModule,
     DragDropModule,
-    NgbModule
+    NgbModule,
+    MatDatepickerModule
   ],
   entryComponents:[
     BusinessDialog,

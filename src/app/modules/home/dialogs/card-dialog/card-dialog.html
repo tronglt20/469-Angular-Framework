@@ -11,7 +11,43 @@
         tabindex="-1"
       />
       <!-- End Card Title  -->
-      <!-- Session  -->
+      <!-- Session 1  -->
+      <div class="d-flex mt-3">
+        <div class="me-3 d-flex">
+          <div class="me-2">Duedate:</div>
+          <div ngbDropdown>
+            <div ngbDropdownToggle style="cursor: pointer">
+              {{card.duedate? (card.duedate | date: 'dd/MM/yyyy') : "Select"}}
+            </div>
+            <div ngbDropdownMenu>
+              <ngb-datepicker [(ngModel)]="model"></ngb-datepicker>
+              <div class="d-flex mt-3 justify-content-end">
+                <button class="btn btn-primary me-2" (click)="updateDuedate()">
+                  Ok
+                </button>
+                <button class="btn btn-danger">Cancle</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="d-flex">
+          <div class="me-2">Priority:</div>
+          <div ngbDropdown>
+            <div ngbDropdownToggle style="cursor: pointer">
+              {{cardPriorityValue}}
+            </div>
+            <div ngbDropdownMenu>
+              <ng-container *ngFor="let item of priorityList">
+                <button ngbDropdownItem (click)="updatePriority(item)">
+                  {{item}}
+                </button>
+              </ng-container>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- End Session 1  -->
+      <!-- Session 2 -->
       <div class="d-flex mt-3">
         <div class="assign me-5">
           <div class="item-header">MEMBERS</div>
@@ -59,24 +95,36 @@
           </div>
         </div>
       </div>
-      <!-- End Session  -->
+      <!-- End Session 2 -->
       <!-- Description  -->
       <div class="description mt-3">
-        <div class="caption">Description</div>
-        <div class="description-content">Hello world</div>
+        <div class="d-flex justify-content-between">
+          <div class="caption">Description</div>
+          <div><i class="fa fa-edit"></i></div>
+        </div>
+        <textarea
+          class="description-content"
+          tabindex="-1"
+          (keyup)="auto_grow($event)"
+          [(ngModel)]="card.description"
+        ></textarea>
+        <div class="d-flex justify-content-end mt-2">
+          <button class="btn btn-secondary  me-2">Cancel</button>
+          <button class="btn btn-primary" (click)="updateDescription()">Save</button>
+        </div>
       </div>
       <!-- End Description  -->
       <!-- Todo  -->
-      <div class="todo-bos mt-5">
+      <div class="todo-bos mt-2">
         <div class="caption">To-Do</div>
         <div class="todolist ms-4">
           <ng-container *ngFor="let todo of todoList">
-            <app-todo [todo]="todo"></app-todo>
+            <app-todo [todo]="todo" #todoItem></app-todo>
           </ng-container>
           <div class="mt-2">
             <input
               type="text"
-              placeholder="Thêm To-do ..."
+              placeholder="Add To-do ..."
               class="todoInput"
               tabindex="-1"
               #todoNameInput
@@ -90,10 +138,31 @@
     <!-- Sidebar  -->
     <div class="sidebar">
       <div class="sidebar-header">ADD TO TASK</div>
-      <div class="add-to-task-btn">To-Do</div>
+      <!-- Todo  -->
+      <div class="dropdown">
+        <div class="add-to-task-btn dropdown-toggle" data-toggle="dropdown">
+          <i class="fa fa-check-square sidebar-icon"></i>
+          To-Do
+        </div>
+        <div class="dropdown-menu">
+          <div class="popup-header">Add To-Do</div>
+          <div class="dropdown-divider"></div>
+          <div style="font-size: 16px; font-weight: 600" class="mb-2">
+            Title:
+          </div>
+          <input type="text" class="todo-input-popup" #todoNameInputPopup />
+          <btn
+            class="btn btn-primary d-block mt-3"
+            (click)="addTodo(todoNameInputPopup.value); todoNameInputPopup.value=''"
+            >Add</btn
+          >
+        </div>
+      </div>
+      <!-- End Todo  -->
       <!-- Member  -->
       <div ngbDropdown class="tag">
         <div class="add-to-task-btn" id="usersMenu" ngbDropdownToggle>
+          <i class="fa fa-user-plus"></i>
           Member
         </div>
         <div ngbDropdownMenu aria-labelledby="usersMenu">
@@ -112,7 +181,9 @@
       <!-- End Member  -->
       <!-- Label  -->
       <div ngbDropdown>
-        <div class="add-to-task-btn" id="tagsMenu" ngbDropdownToggle>Label</div>
+        <div class="add-to-task-btn" id="tagsMenu" ngbDropdownToggle>
+          <i class="fa fa-tag"></i> Label
+        </div>
         <div ngbDropdownMenu aria-labelledby="tagsMenu">
           <ng-container *ngFor="let tag of tagList">
             <button ngbDropdownItem (click)="addCardTag(tag.id)">

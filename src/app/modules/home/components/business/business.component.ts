@@ -1,4 +1,8 @@
-import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
+import {
+  CdkDragDrop,
+  moveItemInArray,
+  transferArrayItem,
+} from '@angular/cdk/drag-drop';
 import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { SharedService } from 'src/app/modules/shared/services/shared.services';
@@ -11,7 +15,7 @@ import { CardModel } from '../../models/card.model';
   selector: 'app-business',
   templateUrl: './business.component.html',
   styleUrls: ['./business.component.css'],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
 })
 export class BusinessComponent implements OnInit {
   @Input() business: BusinessModel;
@@ -20,7 +24,7 @@ export class BusinessComponent implements OnInit {
     this.loadCardList();
   }
 
-  cardList: CardModel[]=[];
+  cardList: CardModel[] = [];
 
   constructor(private service: SharedService, private matDialog: MatDialog) {}
 
@@ -28,6 +32,7 @@ export class BusinessComponent implements OnInit {
     this.service
       .getAll<CardModel>(`business/${this.business.id}/cards`)
       .subscribe((data) => (this.cardList = data));
+    return this.cardList;
   }
 
   // Open dialog
@@ -36,13 +41,17 @@ export class BusinessComponent implements OnInit {
       width: '500px',
       data: { businessId: this.business.id },
     });
-    dialogRef.afterClosed().subscribe(result => this.loadCardList());
+    dialogRef.afterClosed().subscribe((result) => this.loadCardList());
   }
 
-  drop(event: CdkDragDrop<CardModel[]>){
-    console.log(event)
+  drop(event: CdkDragDrop<CardModel[]>) {
+    console.log(event);
     if (event.previousContainer === event.container) {
-      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+      moveItemInArray(
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex
+      );
     } else {
       // this.service
       // .put<CardModel>(`cards/${event.item.data.id}/movement`, `"${newName}"`).subscribe();
@@ -50,7 +59,7 @@ export class BusinessComponent implements OnInit {
         event.previousContainer.data,
         event.container.data,
         event.previousIndex,
-        event.currentIndex,
+        event.currentIndex
       );
     }
   }

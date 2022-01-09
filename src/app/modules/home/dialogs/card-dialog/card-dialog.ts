@@ -1,6 +1,5 @@
 import {
   Component,
-  ElementRef,
   HostListener,
   Inject,
   OnInit,
@@ -8,6 +7,8 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { NgbCalendar, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
+import { PriorityEnum } from 'src/app/modules/shared/models/priority.enum';
 import { UserModel } from 'src/app/modules/shared/models/user.model';
 import { SharedService } from 'src/app/modules/shared/services/shared.services';
 import { CardModel } from '../../models/card.model';
@@ -22,14 +23,13 @@ import { TodoModel } from '../../models/todo.model';
   styleUrls: ['./card-dialog.css'],
   encapsulation: ViewEncapsulation.None,
 })
-export class CardDialog implements OnInit  {
+export class CardDialog implements OnInit {
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     public dialogRef: MatDialogRef<CardDialog>,
     private service: SharedService,
-    private eRef: ElementRef
+    private calender: NgbCalendar
   ) {}
-
 
   ngOnInit(): void {
     if (this.card) {
@@ -52,8 +52,13 @@ export class CardDialog implements OnInit  {
   userList: UserModel[];
   cardTags: CardTag[];
   cardAssigns: CardAssign[];
+  cardPriorityValue = PriorityEnum[this.card?.priority];
+  priorityList = [PriorityEnum[1], PriorityEnum[2]];
+  editDes: boolean = false;
 
-  //  load-list 
+  model: NgbDateStruct;
+
+  //  load-list
   loadTodoList() {
     this.service
       .getAll<TodoModel>(`card/${this.card.id}/todos`)
@@ -64,34 +69,33 @@ export class CardDialog implements OnInit  {
       .getAll<TagModel>(`project/${this.projectId}/tags`)
       .subscribe((data) => (this.tagList = data));
   }
-  loadUserList(){
+  loadUserList() {
     this.service
-    .getAll<UserModel>(`users`)
-    .subscribe((data) => (this.userList = data));
+      .getAll<UserModel>(`users`)
+      .subscribe((data) => (this.userList = data));
   }
-  // end-load-list 
+  // end-load-list
 
-
-  loadCardTag(){
+  loadCardTag() {
     this.service
       .getAll<CardTag>(`card/${this.card.id}/tags`)
       .subscribe((data) => (this.cardTags = data));
   }
-  loadCardAssign(){
+  loadCardAssign() {
     this.service
       .getAll<CardAssign>(`card/${this.card.id}/user`)
       .subscribe((data) => (this.cardAssigns = data));
   }
 
-  addCardTag(tagId: number){
+  addCardTag(tagId: number) {
     this.service
       .post<CardTag>(`card/${this.card.id}/tags`, tagId)
-      .subscribe(result => this.loadCardTag());
+      .subscribe((result) => this.loadCardTag());
   }
-  addCardAssign(userId: number){
+  addCardAssign(userId: number) {
     this.service
-    .post<CardAssign>(`card/${this.card.id}/user`, userId)
-    .subscribe(result => this.loadCardAssign());
+      .post<CardAssign>(`card/${this.card.id}/user`, userId)
+      .subscribe((result) => this.loadCardAssign());
   }
 
   addCard(name: string) {
@@ -111,6 +115,36 @@ export class CardDialog implements OnInit  {
       .subscribe((result) => this.loadTodoList());
   }
 
+  updateDescription() {
+    this.service
+      .put<CardModel>(`cards/${this.card.id}/description`, `"${this.card.description}"`)
+      .subscribe();
+    return self;
+  }
+  updateDuedate() {
+    if (!this.model) return;
+    const jsDate = new Date(this.model.year, this.model.month, this.model.day);
+    this.service
+      .put<CardModel>(`cards/${this.card.id}/duedate`, `"${jsDate.toJSON()}"`)
+      .subscribe();
+
+    var self = this.card;
+    self.duedate = jsDate.toJSON();
+    return self;
+  }
+
+  updatePriority(priorityName: string) {
+    if (priorityName == this.cardPriorityValue) return;
+    var priorityId = PriorityEnum[priorityName];
+    this.service
+      .put<CardModel>(`cards/${this.card.id}/priority`, priorityId)
+      .subscribe();
+
+    var self = this;
+    self.cardPriorityValue = priorityName;
+    return self;
+  }
+
   @HostListener('document:click', ['$event'])
   clickout(event) {
     if (!this.card) return;
@@ -126,5 +160,10 @@ export class CardDialog implements OnInit  {
 
   onNoClick(): void {
     this.dialogRef.close();
+  }
+
+  auto_grow(e) {
+    e.target.style.height = '0px';
+    e.target.style.height = e.target.scrollHeight + 25 + 'px';
   }
 }

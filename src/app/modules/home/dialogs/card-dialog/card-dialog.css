@@ -48,7 +48,8 @@
   margin-bottom: 18px;
 }
 .tag-on-card {
-  min-width: 26px;
+  text-align: center;
+  min-width: 40px;
   border-radius: 3px;
   background-color: #3bade3;
   font-size: 14px;
@@ -67,6 +68,14 @@ p {
   background-color: white;
   padding: 10px;
   margin-top: 10px;
+  width: 100%;
+  border: 0px;
+  resize: none;
+  overflow:hidden;
+  min-height: 50px;
+}
+.description-content:focus{
+  outline: none;
 }
 .add-btn {
   font-size: 26px;
@@ -107,4 +116,34 @@ p {
   padding: 6px 8px 6px 12px;
   color: white;
   cursor: pointer;
+}
+.dropdown-menu{
+  padding: 15px 10px;
+  top: 10px !important;
+  left: -40px !important;
+}
+.popup-header{
+  text-align: center;
+}
+.todo-input-popup{
+  width: 100%;
+  border: 3px;
+  padding: 7px 10px;
+  font-size: 16px;
+  min-height: 34px;
+  border: 1px solid #eee;
+}
+.todo-input-popup:focus{
+  border: 1px solid #2171c1;
+  outline: none;
+}
+.duedateInput{
+  background-color: #edeff0;
+  max-width: 80px;
+  border: 0px solid;
+
+}
+.duedateInput:focus{
+  outline: none;
+  border: 0px solid;
 }

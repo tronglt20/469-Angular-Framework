@@ -1,11 +1,11 @@
-import { Priority } from "../../shared/models/priority.enum";
+import { PriorityEnum } from "../../shared/models/priority.enum";
 
 export class CardModel{
     id: number;
     name: string;
     duedate: Date;
     description: string;
-    priority: Priority;
+    priority: PriorityEnum;
     businessId: number;
     index: number
 
