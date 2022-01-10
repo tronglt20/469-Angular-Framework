@@ -6,7 +6,6 @@ import {
 import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { SharedService } from 'src/app/modules/shared/services/shared.services';
-import { BusinessDialog } from '../../dialogs/business-dialog/business-dialog';
 import { CardDialog } from '../../dialogs/card-dialog/card-dialog';
 import { BusinessModel } from '../../models/business.model';
 import { CardModel } from '../../models/card.model';
@@ -32,7 +31,6 @@ export class BusinessComponent implements OnInit {
     this.service
       .getAll<CardModel>(`business/${this.business.id}/cards`)
       .subscribe((data) => (this.cardList = data));
-    return this.cardList;
   }
 
   // Open dialog
@@ -45,13 +43,23 @@ export class BusinessComponent implements OnInit {
   }
 
   drop(event: CdkDragDrop<CardModel[]>) {
-    console.log(event);
+    var card = event.item.data;
+    var container = event.container.data;
+    var preContainer = event.previousContainer.data;
+
+
     if (event.previousContainer === event.container) {
-      moveItemInArray(
-        event.container.data,
-        event.previousIndex,
-        event.currentIndex
-      );
+      if (event.currentIndex == event.previousIndex) return;
+      var previousCard = container[event.currentIndex]
+
+      var plusValue = card.index > previousCard.index ? -0.001 : 0.001;
+      var body = `{
+        'busId': ${this.business.id},
+        'index': ${previousCard.index + plusValue},
+      }`;
+      this.service
+        .put<CardModel>(`cards/${card.id}/movement`, body)
+        .subscribe((result) => this.loadCardList());
     } else {
       // this.service
       // .put<CardModel>(`cards/${event.item.data.id}/movement`, `"${newName}"`).subscribe();
