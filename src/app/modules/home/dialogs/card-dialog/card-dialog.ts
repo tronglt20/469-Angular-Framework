@@ -117,9 +117,11 @@ export class CardDialog implements OnInit {
 
   updateDescription() {
     this.service
-      .put<CardModel>(`cards/${this.card.id}/description`, `"${this.card.description}"`)
+      .put<CardModel>(
+        `cards/${this.card.id}/description`,
+        `"${this.card.description}"`
+      )
       .subscribe();
-    return self;
   }
   updateDuedate() {
     if (!this.model) return;

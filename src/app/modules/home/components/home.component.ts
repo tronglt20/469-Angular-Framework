@@ -1,4 +1,10 @@
-import { Component, DoCheck, HostListener, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  DoCheck,
+  HostListener,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { SharedService } from '../../shared/services/shared.services';
 import { ProjectModel } from '../models/project.model';
 
@@ -14,12 +20,16 @@ export class HomeComponent implements OnInit {
     this.loadProjectList();
   }
 
-  projectList: ProjectModel[] = [];
+  projectList: ProjectModel[];
 
   loadProjectList() {
+    this.service.getAll<ProjectModel>('project').subscribe((data) => this.projectList = data);
+  }
+
+  deleteProject(selected) {
     this.service
-      .getAll<ProjectModel>('project')
-      .subscribe((data) => (this.projectList = data));
+      .delete<ProjectModel>(`project/${selected.id}`)
+      .subscribe((result) => this.loadProjectList);
   }
 
   addProject(name: string) {
@@ -28,8 +38,7 @@ export class HomeComponent implements OnInit {
     this.service
       .post<ProjectModel>('project', `"${name}"`)
       .subscribe((project) => {
-          this.loadProjectList();
+        this.loadProjectList();
       });
   }
-
 }

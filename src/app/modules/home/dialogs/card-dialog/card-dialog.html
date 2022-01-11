@@ -100,17 +100,20 @@
       <div class="description mt-3">
         <div class="d-flex justify-content-between">
           <div class="caption">Description</div>
-          <div><i class="fa fa-edit"></i></div>
+          <div class="desEditBtn"><i class="fa fa-edit"></i></div>
         </div>
         <textarea
           class="description-content"
           tabindex="-1"
           (keyup)="auto_grow($event)"
           [(ngModel)]="card.description"
+          
         ></textarea>
         <div class="d-flex justify-content-end mt-2">
-          <button class="btn btn-secondary  me-2">Cancel</button>
-          <button class="btn btn-primary" (click)="updateDescription()">Save</button>
+          <button class="btn btn-secondary me-2">Cancel</button>
+          <button class="btn btn-primary" (click)="updateDescription()">
+            Save
+          </button>
         </div>
       </div>
       <!-- End Description  -->

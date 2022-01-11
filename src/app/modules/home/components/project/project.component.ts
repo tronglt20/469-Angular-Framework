@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { SharedService } from 'src/app/modules/shared/services/shared.services';
 import { ProjectModel } from '../../models/project.model';
 import { Location } from '@angular/common';
@@ -11,14 +11,16 @@ import { Location } from '@angular/common';
 })
 export class ProjectComponent implements OnInit {
   @Input() project: ProjectModel
+  @Output() projectSelected = new EventEmitter<ProjectModel>()
 
   constructor(private service : SharedService, private location: Location) { }
 
   ngOnInit(): void {
   }
 
-  delete(event: Event, id: number){
-    event.stopPropagation();
-    this.service.delete<ProjectModel>(`project/${id}`).subscribe()
+  selectProject(e: Event){
+    e.stopPropagation();
+    this.projectSelected.emit(this.project);
   }
+
 }

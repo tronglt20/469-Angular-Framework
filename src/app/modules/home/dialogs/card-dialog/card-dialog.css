@@ -48,6 +48,7 @@
   margin-bottom: 18px;
 }
 .tag-on-card {
+  align-items: center;
   text-align: center;
   min-width: 40px;
   border-radius: 3px;
@@ -71,11 +72,15 @@ p {
   width: 100%;
   border: 0px;
   resize: none;
-  overflow:hidden;
   min-height: 50px;
 }
-.description-content:focus{
+.description-content:focus {
   outline: none;
+}
+.desEditBtn{
+  cursor: pointer;
+  font-size: 22px;
+  margin-right: 6px;
 }
 .add-btn {
   font-size: 26px;
@@ -94,7 +99,6 @@ p {
   background-color: white;
   transition: ease 0.2s;
 }
-
 
 /* Sidebar  */
 .sidebar {
@@ -117,15 +121,15 @@ p {
   color: white;
   cursor: pointer;
 }
-.dropdown-menu{
+.dropdown-menu {
   padding: 15px 10px;
   top: 10px !important;
   left: -40px !important;
 }
-.popup-header{
+.popup-header {
   text-align: center;
 }
-.todo-input-popup{
+.todo-input-popup {
   width: 100%;
   border: 3px;
   padding: 7px 10px;
@@ -133,17 +137,16 @@ p {
   min-height: 34px;
   border: 1px solid #eee;
 }
-.todo-input-popup:focus{
+.todo-input-popup:focus {
   border: 1px solid #2171c1;
   outline: none;
 }
-.duedateInput{
+.duedateInput {
   background-color: #edeff0;
   max-width: 80px;
   border: 0px solid;
-
 }
-.duedateInput:focus{
+.duedateInput:focus {
   outline: none;
   border: 0px solid;
 }

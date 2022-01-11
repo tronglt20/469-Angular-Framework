@@ -13,10 +13,12 @@
       Add Project
     </button>
   </div>
-  <hr>
-  <ng-container *ngFor="let project of projectList">
-    <app-project [project]="project" style="cursor: pointer;"></app-project>
+  <hr />
+  <ng-container *ngFor="let project of projectList; async">
+    <app-project
+      [project]="project"
+      style="cursor: pointer"
+      (projectSelected)="deleteProject($event)"
+    ></app-project>
   </ng-container>
-
 </div>
-

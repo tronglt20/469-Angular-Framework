@@ -40,29 +40,73 @@ export class BusinessComponent implements OnInit {
       data: { businessId: this.business.id },
     });
     dialogRef.afterClosed().subscribe((result) => this.loadCardList());
+    console.log(this.cardList);
   }
 
   drop(event: CdkDragDrop<CardModel[]>) {
     var card = event.item.data;
-    var container = event.container.data;
-    var preContainer = event.previousContainer.data;
-
+    var index = event.currentIndex;
 
     if (event.previousContainer === event.container) {
+      // Stay
       if (event.currentIndex == event.previousIndex) return;
-      var previousCard = container[event.currentIndex]
 
-      var plusValue = card.index > previousCard.index ? -0.001 : 0.001;
+      // Down
+      if (event.currentIndex > event.previousIndex) {
+        var previousCard = event.container.data[index];
+        var nextCard = event.container.data[index + 1];
+      } else {
+        // Up
+        var nextCard = event.container.data[index];
+        var previousCard = event.container.data[index - 1];
+      }
+
+      if (!previousCard) {
+        card.index = nextCard.index / 2;
+      } else if (!nextCard) {
+        card.index = previousCard.index + 1;
+      } else {
+        card.index = (previousCard?.index + nextCard?.index) / 2;
+      }
+
       var body = `{
         'busId': ${this.business.id},
-        'index': ${previousCard.index + plusValue},
+        'index': ${card.index},
       }`;
+
       this.service
         .put<CardModel>(`cards/${card.id}/movement`, body)
         .subscribe((result) => this.loadCardList());
+
+      moveItemInArray(
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex
+      );
     } else {
-      // this.service
-      // .put<CardModel>(`cards/${event.item.data.id}/movement`, `"${newName}"`).subscribe();
+      // Move on other business
+      var previousCard = event.container.data[index - 1];
+      var nextCard = event.container.data[index];
+
+      if (!previousCard && !nextCard) {
+        card.index = 1;
+      } else if (!previousCard) {
+        card.index = nextCard.index / 2;
+      } else if (!nextCard) {
+        card.index = previousCard.index + 1;
+      } else {
+        card.index = (previousCard?.index + nextCard?.index) / 2;
+      }
+
+      var body = `{
+        'busId': ${this.business.id},
+        'index': ${card.index},
+      }`;
+
+      this.service
+        .put<CardModel>(`cards/${card.id}/movement`, body)
+        .subscribe((result) => this.loadCardList());
+
       transferArrayItem(
         event.previousContainer.data,
         event.container.data,

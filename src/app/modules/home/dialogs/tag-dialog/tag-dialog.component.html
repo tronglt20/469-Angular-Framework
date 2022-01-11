@@ -10,7 +10,7 @@
 <div class="mt-3">
   <p class="mb-2">Tag List</p>
   <ng-container *ngFor="let tag of tagList">
-    <div class="tag d-flex justify-content-between">
+    <div class="tag-item d-flex justify-content-between">
       <p>{{ tag.name }}</p>
       <div class="deleteTag" (click)="deleteTag(tag.id)">
         <i class="fas fa-trash-alt"></i> x
