@@ -1,6 +1,7 @@
-<div style="margin: 20px; border: 1px solid;"
-    routerLink="project/{{project.id}}">
-  <div>Project name: {{ project.name }}</div>
-  <br>
-  <button class="btn btn-primary" (click)="selectProject($event)">X</button>
+<div>
+  <div routerLink="project/{{ project.id }}">
+    <div>{{project.id}}. {{ project.name }}</div>
+    <br />
+  </div>
+  <button class="btn btn-danger" (click)="selectProject($event)">X</button>
 </div>

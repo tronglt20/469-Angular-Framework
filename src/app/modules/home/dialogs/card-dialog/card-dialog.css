@@ -150,3 +150,16 @@ p {
   outline: none;
   border: 0px solid;
 }
+.dropdown-toggle::after {
+  display:none;
+}
+
+.removeCardAssignBtn{
+  margin-left: 12px;
+  border: 0px;
+  outline: none;
+  background-color: transparent;
+}
+.removeCardAssignBtn:hover{
+  background-color: #ddd;
+}

@@ -23,13 +23,22 @@ export class HomeComponent implements OnInit {
   projectList: ProjectModel[];
 
   loadProjectList() {
-    this.service.getAll<ProjectModel>('project').subscribe((data) => this.projectList = data);
+    this.service
+      .getAll<ProjectModel>('project')
+      .subscribe((data) => (this.projectList = data));
   }
+  funct: Function;
 
   deleteProject(selected) {
-    this.service
-      .delete<ProjectModel>(`project/${selected.id}`)
-      .subscribe((result) => this.loadProjectList);
+    console.log(selected);
+    this.service.delete<ProjectModel>(`project/${selected.id}`).subscribe({
+      next: (result) => {
+        this.loadProjectList();
+      },
+      error: (error) => {
+        console.log(error);
+      },
+    });
   }
 
   addProject(name: string) {

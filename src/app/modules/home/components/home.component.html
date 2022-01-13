@@ -1,24 +1,35 @@
 <div class="container">
-  <h3 class="d-flex justify-content-center">Projects Manager</h3>
-  <hr />
-  <div>
-    <label for="new-project">Project name: </label>
-    <input id="new-project" #projectName />
+  <h3 class="d-flex justify-content-center mt-3">Projects Manager</h3>
 
-    <!-- (click) passes input value to add() and then clears the input -->
-    <button
-      class="add-button"
-      (click)="addProject(projectName.value); projectName.value = ''"
-    >
-      Add Project
-    </button>
-  </div>
   <hr />
-  <ng-container *ngFor="let project of projectList; async">
-    <app-project
-      [project]="project"
-      style="cursor: pointer"
-      (projectSelected)="deleteProject($event)"
-    ></app-project>
-  </ng-container>
+
+  <div class="projects">
+    <ng-container *ngFor="let project of projectList">
+      <app-project
+        class="project"
+        [project]="project"
+        style="cursor: pointer"
+        (projectSelected)="deleteProject($event)"
+      ></app-project>
+    </ng-container>
+  </div>
+
+  <hr />
+  <div class="dropdown">
+    <div class="addProjectBtn" data-toggle="dropdown">Add Project</div>
+    <div class="dropdown-menu">
+      <div class="popup-header">Name</div>
+      <div class="dropdown-divider"></div>
+      <input type="text" class="project-input-popup" #projectNameInputPopup />
+      <button
+        class="add-button mt-3 btn btn-primary"
+        (click)="
+          addProject(projectNameInputPopup.value);
+          projectNameInputPopup.value = ''
+        "
+      >
+        Add
+      </button>
+    </div>
+  </div>
 </div>

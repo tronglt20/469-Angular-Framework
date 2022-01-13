@@ -40,13 +40,15 @@ export class BusinessComponent implements OnInit {
       data: { businessId: this.business.id },
     });
     dialogRef.afterClosed().subscribe((result) => this.loadCardList());
-    console.log(this.cardList);
+   
   }
 
   drop(event: CdkDragDrop<CardModel[]>) {
-    var card = event.item.data;
-    var index = event.currentIndex;
+    // var, let, const
+    let card = event.item.data;
+    let index = event.currentIndex;
 
+    // Move on it own business
     if (event.previousContainer === event.container) {
       // Stay
       if (event.currentIndex == event.previousIndex) return;
@@ -69,10 +71,10 @@ export class BusinessComponent implements OnInit {
         card.index = (previousCard?.index + nextCard?.index) / 2;
       }
 
-      var body = `{
-        'busId': ${this.business.id},
-        'index': ${card.index},
-      }`;
+      var body :{busId: number, index: number} = {
+        busId: this.business.id,
+        index: card.index,
+      };
 
       this.service
         .put<CardModel>(`cards/${card.id}/movement`, body)
@@ -98,10 +100,10 @@ export class BusinessComponent implements OnInit {
         card.index = (previousCard?.index + nextCard?.index) / 2;
       }
 
-      var body = `{
-        'busId': ${this.business.id},
-        'index': ${card.index},
-      }`;
+      var body :{busId: number, index: number} = {
+        busId: this.business.id,
+        index: card.index,
+      };
 
       this.service
         .put<CardModel>(`cards/${card.id}/movement`, body)

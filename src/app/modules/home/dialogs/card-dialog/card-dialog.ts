@@ -44,6 +44,8 @@ export class CardDialog implements OnInit {
   @ViewChild('cardNameInput') cardNameInput;
   @ViewChild('todoNameInput') todoNameInput;
 
+  model: NgbDateStruct;
+
   businessId = this.data.businessId;
   projectId = this.data.projectId;
   card = this.data.card;
@@ -52,11 +54,9 @@ export class CardDialog implements OnInit {
   userList: UserModel[];
   cardTags: CardTag[];
   cardAssigns: CardAssign[];
-  cardPriorityValue = PriorityEnum[this.card?.priority];
-  priorityList = [PriorityEnum[1], PriorityEnum[2]];
-  editDes: boolean = false;
-
-  model: NgbDateStruct;
+  priorityList: {id: number, text: string}[] = [
+    {id: PriorityEnum.Normal, text: 'Normal'},
+    {id: PriorityEnum.Urgent, text: 'Urgent'}];
 
   //  load-list
   loadTodoList() {
@@ -125,7 +125,7 @@ export class CardDialog implements OnInit {
   }
   updateDuedate() {
     if (!this.model) return;
-    const jsDate = new Date(this.model.year, this.model.month, this.model.day);
+    const jsDate = new Date(this.model.year, this.model.month -1, this.model.day);
     this.service
       .put<CardModel>(`cards/${this.card.id}/duedate`, `"${jsDate.toJSON()}"`)
       .subscribe();
@@ -135,16 +135,29 @@ export class CardDialog implements OnInit {
     return self;
   }
 
-  updatePriority(priorityName: string) {
-    if (priorityName == this.cardPriorityValue) return;
-    var priorityId = PriorityEnum[priorityName];
+  updatePriority(priorityId: number) {
+    // console.log(priorityName)
+    // if (priorityName == this.cardPriorityValue) return;
+    // var priorityId = PriorityEnum[priorityName];
     this.service
       .put<CardModel>(`cards/${this.card.id}/priority`, priorityId)
-      .subscribe();
+      .subscribe(id => {
+        this.card.priority = priorityId;
+        //Create angular lookup pipe, TO show priority name by id
+      });
+    // this.cardPriorityValue = priorityName;
+  }
 
-    var self = this;
-    self.cardPriorityValue = priorityName;
-    return self;
+
+  removeCardAssign(e : Event, userId: number){
+    e.stopPropagation();
+    // Remove CardAssign
+    this.service
+    // .put<CardModel>(`cards/${this.card.id}/priority`, priorityId)
+    // .subscribe(id => {
+    //   this.card.priority = priorityId;
+    // });
+
   }
 
   @HostListener('document:click', ['$event'])

@@ -56,7 +56,6 @@ export class ProjectDetailComponent implements OnInit {
       .subscribe((data) => (this.businessList = data));
   }
 
-  updateProjectName(newName) {}
 
   goBack() {
     this.location.back();
@@ -69,7 +68,6 @@ export class ProjectDetailComponent implements OnInit {
       data: { id: this.projectId },
     });
     dialogRef.afterClosed().subscribe((result) => this.loadBusinessList());
-    return this.businessList;
   }
 
   addTagDialog() {
@@ -80,6 +78,7 @@ export class ProjectDetailComponent implements OnInit {
     });
   }
 
+  // Update project name
   @HostListener('document:click', ['$event'])
   clickout(event) {
     if(!this.project) {return};

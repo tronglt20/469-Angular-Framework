@@ -16,6 +16,8 @@ import { TagDialog } from './dialogs/tag-dialog/tag-dialog.component';
 import { TodoComponent } from './components/todo/todo.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {MatDatepickerModule} from '@angular/material/datepicker';
+import { UserLookupPipe } from './pipes/user-lookup.pipe';
+import { PriorityLookupPipe } from './pipes/priority-lookup.pipe';
 
 @NgModule({
   declarations: [
@@ -27,6 +29,8 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
     TagDialog,
     CardDialog,
     TodoComponent,
+    UserLookupPipe,
+    PriorityLookupPipe,
   ],
   imports: [
     FormsModule,
