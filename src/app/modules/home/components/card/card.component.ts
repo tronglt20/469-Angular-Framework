@@ -17,7 +17,7 @@ export class CardComponent implements OnInit {
 
   openCardDialog() {
     const dialogRef = this.matDialog.open(CardDialog, {
-      width: '100vh',
+      width: '120vh',
       height: '90vh',
       data: { card: this.card, projectId: this.projectId },
       panelClass: 'cardDialog'

@@ -10,7 +10,6 @@ import {
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { NgbCalendar, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { PriorityEnum } from 'src/app/modules/shared/models/priority.enum';
-import { UserModel } from 'src/app/modules/shared/models/user.model';
 import { SharedService } from 'src/app/modules/shared/services/shared.services';
 import { ActivityModel } from '../../models/activity.model';
 import { CardModel } from '../../models/card.model';
@@ -18,6 +17,7 @@ import { CardAssign } from '../../models/cardAssign.model';
 import { CardTag } from '../../models/cardTag.model';
 import { TagModel } from '../../models/tag.model';
 import { TodoModel } from '../../models/todo.model';
+import { UserModel } from '../../models/user.model';
 
 @Component({
   selector: 'card-dialog',
@@ -41,13 +41,16 @@ export class CardDialog implements OnInit {
       this.loadCardTag();
       this.loadCardAssign();
       this.loadActivities();
-      this.isShow = false;
+      this.isShowActivity = false;
+      this.isReadOnly = true;
     }
   }
 
   @ViewChild('cardNameInput') cardNameInput;
   @ViewChild('todoNameInput') todoNameInput;
-  isShow: boolean;
+
+  isShowActivity: boolean;
+  isReadOnly: boolean;
 
   model: NgbDateStruct;
   activities: ActivityModel[];
@@ -66,7 +69,13 @@ export class CardDialog implements OnInit {
   ];
 
   showActivity() {
-    this.isShow = !this.isShow;
+    this.isShowActivity = !this.isShowActivity;
+  }
+  editDescription() {
+    this.isReadOnly = !this.isReadOnly;
+  }
+  cancleEditDescription() {
+    this.isReadOnly = !this.isReadOnly;
   }
 
   //  load-list
@@ -98,8 +107,11 @@ export class CardDialog implements OnInit {
   loadCardTag() {
     this.service
       .getAll<CardTag>(`card/${this.card.id}/tags`)
-      .subscribe((data) => (this.cardTags = data));
+      .subscribe((data) => {
+        this.cardTags = data;
+      });
   }
+
   loadCardAssign() {
     this.service
       .getAll<CardAssign>(`card/${this.card.id}/user`)
@@ -109,12 +121,18 @@ export class CardDialog implements OnInit {
   addCardTag(tagId: number) {
     this.service
       .post<CardTag>(`card/${this.card.id}/tags`, tagId)
-      .subscribe((result) => this.loadCardTag());
+      .subscribe((result) => {
+        this.loadCardTag();
+        this.loadActivities();
+      });
   }
   addCardAssign(userId: number) {
     this.service
       .post<CardAssign>(`card/${this.card.id}/user`, userId)
-      .subscribe((result) => this.loadCardAssign());
+      .subscribe((result) => {
+        this.loadCardAssign();
+        this.loadActivities();
+      });
   }
 
   addCard(name: string) {
@@ -131,21 +149,24 @@ export class CardDialog implements OnInit {
     if (!name) return;
     this.service
       .post<TodoModel>(`card/${this.card.id}/todos`, `"${name}"`)
-      .subscribe((result) => this.loadTodoList());
+      .subscribe((result) => {
+        this.loadTodoList();
+        this.loadActivities();
+      });
   }
 
-  updateDescription() {
-    if (this.card.description == null) return;
+  updateDescription(input: string) {
+    if (input == null || input == this.card.description) return;
     this.service
-      .put<CardModel>(
-        `cards/${this.card.id}/description`,
-        `"${this.card.description}"`
-      )
-      .subscribe(result => {
-        this.loadActivities()
+      .put<CardModel>(`cards/${this.card.id}/description`, `"${input}"`)
+      .subscribe((result) => {
+        this.isReadOnly = !this.isReadOnly;
+        this.loadActivities();
       });
   }
   updateDuedate() {
+    // console.log(this.model)
+    // console.log(this.card.duedate)
     if (!this.model) return;
     const jsDate = new Date(
       this.model.year,
@@ -154,13 +175,19 @@ export class CardDialog implements OnInit {
     );
     this.service
       .put<CardModel>(`cards/${this.card.id}/duedate`, `"${jsDate.toJSON()}"`)
-      .subscribe((result) => {
-        this.card.duedate = jsDate.toJSON();
-        this.loadActivities();
+      .subscribe({
+        next: (result) => {
+          this.card.duedate = jsDate.toJSON();
+          this.loadActivities();
+        },
+        error: (error) => {
+          console.log(error);
+        },
       });
   }
 
   updatePriority(priorityId: number) {
+    if(priorityId == this.card.priority) return;
     // console.log(priorityName)
     // if (priorityName == this.cardPriorityValue) return;
     // var priorityId = PriorityEnum[priorityName];
@@ -181,6 +208,16 @@ export class CardDialog implements OnInit {
       .delete<CardAssign>(`card/${this.card.id}/user/${userId}`)
       .subscribe((id) => {
         this.loadCardAssign();
+        this.loadActivities();
+      });
+  }
+
+  removeCardTag(e: Event, tagId: number) {
+    this.service
+      .delete<CardTag>(`card/${this.card.id}/tag/${tagId}`)
+      .subscribe((id) => {
+        this.loadCardTag();
+        this.loadActivities();
       });
   }
 
@@ -193,7 +230,7 @@ export class CardDialog implements OnInit {
     } else {
       this.service // Click outside
         .put<CardModel>(`cards/${this.card.id}/name`, `"${this.card.name}"`)
-        .subscribe(result => {
+        .subscribe((result) => {
           // this.loadActivities();
         });
     }

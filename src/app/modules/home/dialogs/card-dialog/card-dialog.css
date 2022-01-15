@@ -52,6 +52,7 @@
   margin-bottom: 18px;
 }
 .tag-on-card {
+  cursor: pointer;
   align-items: center;
   text-align: center;
   min-width: 40px;
@@ -171,6 +172,13 @@ p {
 .removeCardAssignBtn:hover{
   background-color: #ddd;
 }
-.activities-container{
-  /* background-color: red; */
+.removeTagBtn{
+  padding: 4px 6px;
+  min-width: 0px;
+  cursor: pointer;
+  left: 0px !important;
+  transition: ease .2s;
+}
+.removeTagBtn:hover{
+  background-color: rgb(228, 222, 222);
 }

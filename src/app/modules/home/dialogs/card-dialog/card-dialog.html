@@ -96,7 +96,19 @@
           <div class="item-header">LABELS</div>
           <div class="d-flex">
             <ng-container *ngFor="let tag of cardTags">
-              <div class="tag-on-card me-2"><p>{{tag.tagName}}</p></div>
+              <div ngbDropdown>
+                <div class="tag-on-card me-2" ngbDropdownToggle>
+                  <p>{{tag.tagName}}</p>
+                </div>
+                <div ngbDropdownMenu class="removeTagBtn">
+                  <button
+                    ngbDropdownItem
+                    (click)="removeCardTag($event, tag.tagId)"
+                  >
+                    Remove
+                  </button>
+                </div>
+              </div>
             </ng-container>
             <div ngbDropdown class="tag">
               <div class="add-btn" id="tagsMenu" ngbDropdownToggle>
@@ -121,17 +133,29 @@
             <i class="fa fa-sticky-note"></i>
             Description
           </div>
-          <div class="desEditBtn"><i class="fa fa-edit"></i></div>
+          <div class="desEditBtn" (click)="editDescription()">
+            <i class="fa fa-edit"></i>
+          </div>
         </div>
         <textarea
           class="description-content"
           tabindex="-1"
           (keyup)="auto_grow($event)"
-          [(ngModel)]="card.description"
+          [value]="card.description"
+          [readonly]="isReadOnly"
+          #descriptionInput
         ></textarea>
-        <div class="d-flex justify-content-end mt-2">
-          <button class="btn btn-secondary me-2">Cancel</button>
-          <button class="btn btn-primary" (click)="updateDescription()">
+        <div *ngIf="!isReadOnly" class="d-flex justify-content-end mt-2">
+          <button
+            class="btn btn-secondary me-2"
+            (click)="cancleEditDescription(); descriptionInput.value=card.description"
+          >
+            Cancel
+          </button>
+          <button
+            class="btn btn-primary"
+            (click)="updateDescription(descriptionInput.value)"
+          >
             Save
           </button>
         </div>
@@ -161,7 +185,7 @@
       </div>
       <!-- End Todo  -->
       <!-- Activities  -->
-      <div *ngIf="isShow" class="activities-container mt-2">
+      <div *ngIf="isShowActivity" class="activities-container mt-2">
         <div class="caption mb-3">
           <i class="fa fa-history"></i>
           Activity
@@ -241,11 +265,13 @@
       <div class="sidebar-header">FILTERS</div>
       <!-- Activityy  -->
       <div>
-        <div class="add-to-task-btn d-flex justify-content-between" id="tagsMenu" (click)="showActivity($event)">
-          <div>
-            <i class="fa fa-history"></i> Activity
-          </div>
-          <div *ngIf="isShow" >
+        <div
+          class="add-to-task-btn d-flex justify-content-between"
+          id="tagsMenu"
+          (click)="showActivity($event)"
+        >
+          <div><i class="fa fa-history"></i> Activity</div>
+          <div *ngIf="isShowActivity">
             <i class="fa fa-check align-items-end"></i>
           </div>
         </div>

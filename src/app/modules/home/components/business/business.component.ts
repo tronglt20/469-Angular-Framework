@@ -44,7 +44,6 @@ export class BusinessComponent implements OnInit {
   }
 
   drop(event: CdkDragDrop<CardModel[]>) {
-    console.log(event)
     // var, let, const
     let card = event.item.data;
     let index = event.currentIndex;
