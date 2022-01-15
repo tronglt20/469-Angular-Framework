@@ -18,6 +18,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import { UserLookupPipe } from './pipes/user-lookup.pipe';
 import { PriorityLookupPipe } from './pipes/priority-lookup.pipe';
+import { ActivityComponent } from './components/activity/activity.component';
+import { ActionLookupPipe } from './pipes/action-lookup.pipe';
 
 @NgModule({
   declarations: [
@@ -31,6 +33,8 @@ import { PriorityLookupPipe } from './pipes/priority-lookup.pipe';
     TodoComponent,
     UserLookupPipe,
     PriorityLookupPipe,
+    ActivityComponent,
+    ActionLookupPipe,
   ],
   imports: [
     FormsModule,

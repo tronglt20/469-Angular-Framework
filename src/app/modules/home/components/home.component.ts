@@ -30,7 +30,6 @@ export class HomeComponent implements OnInit {
   funct: Function;
 
   deleteProject(selected) {
-    console.log(selected);
     this.service.delete<ProjectModel>(`project/${selected.id}`).subscribe({
       next: (result) => {
         this.loadProjectList();

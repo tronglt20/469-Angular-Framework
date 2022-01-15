@@ -1,0 +1,10 @@
+.activity-item{
+    margin: 10px;
+}
+.userImg{
+    width: 40px;
+    border-radius: 50%;
+    align-items: center;
+    margin-right: 15px;
+}
+

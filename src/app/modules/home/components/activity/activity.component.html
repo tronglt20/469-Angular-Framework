@@ -1,0 +1,31 @@
+<div *ngIf="activity">
+  <div class="activity-item d-flex">
+    <div class="aside">
+      <img class="userImg" src="{{ user.imagePath }}" />
+    </div>
+    <div class="main d-flex flex-column">
+      <div class="d-flex">
+        <div>{{ user.name }} {{ activity.action | actionLookup }}</div>
+        <!-- <div>{{ activity.action | actionLookup }}</div> -->
+        <!-- <div *ngIf="activity.previousValue">
+          From {{ activity.previousValue }}
+        </div>
+        <div *ngIf="activity.currentValue">
+          To {{ activity.currentValue }}
+        </div> -->
+      </div>
+      <div class="time">
+        <div>{{ activity.onDate | date: "MMM d, y, h:mm a" }}</div>
+      </div>
+    </div>
+  </div>
+  <hr />
+</div>
+
+<!-- id: number;
+cardId: number;
+userId: number;
+action: ActionEnum;
+currentValue: string;
+previousValue: string;
+onDate: Date; -->

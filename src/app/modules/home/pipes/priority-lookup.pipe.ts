@@ -2,7 +2,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { PriorityEnum } from '../../shared/models/priority.enum';
 
 @Pipe({
-  name: 'priorityLookup'
+  name: 'priorityLookup'  
 })
 export class PriorityLookupPipe implements PipeTransform {
 

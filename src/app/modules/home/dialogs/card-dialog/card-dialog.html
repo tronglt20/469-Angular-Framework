@@ -1,3 +1,4 @@
+<!-- Card detail  -->
 <div *ngIf="card">
   <div class="d-flex card-container">
     <!-- Content  -->
@@ -59,10 +60,15 @@
                   class="me-2 user-avt"
                   ngbDropdownToggle
                 />
-                <div ngbDropdownMenu >
+                <div ngbDropdownMenu>
                   <div ngbDropdownItem class="d-flex">
                     {{cardAssign.userEmail}}
-                    <button class="removeCardAssignBtn" (click)="removeCardAssign($event, cardAssign.assignTo)">Remove</button>
+                    <button
+                      class="removeCardAssignBtn"
+                      (click)="removeCardAssign($event, cardAssign.assignTo)"
+                    >
+                      <i class="fa fa-remove"></i>
+                    </button>
                   </div>
                 </div>
               </div>
@@ -111,7 +117,10 @@
       <!-- Description  -->
       <div class="description mt-3">
         <div class="d-flex justify-content-between">
-          <div class="caption">Description</div>
+          <div class="caption">
+            <i class="fa fa-sticky-note"></i>
+            Description
+          </div>
           <div class="desEditBtn"><i class="fa fa-edit"></i></div>
         </div>
         <textarea
@@ -130,7 +139,10 @@
       <!-- End Description  -->
       <!-- Todo  -->
       <div class="todo-bos mt-2">
-        <div class="caption">To-Do</div>
+        <div class="caption">
+          <i class="fa checklist-icon fa-check-square"></i>
+          To-Do
+        </div>
         <div class="todolist ms-4">
           <ng-container *ngFor="let todo of todoList">
             <app-todo [todo]="todo" #todoItem></app-todo>
@@ -148,7 +160,24 @@
         </div>
       </div>
       <!-- End Todo  -->
+      <!-- Activities  -->
+      <div *ngIf="isShow" class="activities-container mt-2">
+        <div class="caption mb-3">
+          <i class="fa fa-history"></i>
+          Activity
+        </div>
+        <ng-container *ngFor="let activity of activities">
+          <app-activity [activity]="activity"></app-activity>
+        </ng-container>
+      </div>
+      <!-- End activities  -->
     </div>
+    <!-- End content  -->
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <!---->
     <!-- Sidebar  -->
     <div class="sidebar">
       <div class="sidebar-header">ADD TO TASK</div>
@@ -168,8 +197,9 @@
           <button
             class="btn btn-primary d-block mt-3"
             (click)="addTodo(todoNameInputPopup.value); todoNameInputPopup.value=''"
-            >Add</button
           >
+            Add
+          </button>
         </div>
       </div>
       <!-- End Todo  -->
@@ -207,9 +237,25 @@
         </div>
       </div>
       <!-- End Label  -->
+
+      <div class="sidebar-header">FILTERS</div>
+      <!-- Activityy  -->
+      <div>
+        <div class="add-to-task-btn d-flex justify-content-between" id="tagsMenu" (click)="showActivity($event)">
+          <div>
+            <i class="fa fa-history"></i> Activity
+          </div>
+          <div *ngIf="isShow" >
+            <i class="fa fa-check align-items-end"></i>
+          </div>
+        </div>
+      </div>
+      <!-- End Activity  -->
     </div>
+    <!-- End sidebar  -->
   </div>
 </div>
+<!-- End Card detail  -->
 
 <!-- Card create  -->
 <div *ngIf="!card">

@@ -2,6 +2,7 @@ import {
   Component,
   HostListener,
   Inject,
+  Input,
   OnInit,
   ViewChild,
   ViewEncapsulation,
@@ -11,6 +12,7 @@ import { NgbCalendar, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { PriorityEnum } from 'src/app/modules/shared/models/priority.enum';
 import { UserModel } from 'src/app/modules/shared/models/user.model';
 import { SharedService } from 'src/app/modules/shared/services/shared.services';
+import { ActivityModel } from '../../models/activity.model';
 import { CardModel } from '../../models/card.model';
 import { CardAssign } from '../../models/cardAssign.model';
 import { CardTag } from '../../models/cardTag.model';
@@ -38,13 +40,17 @@ export class CardDialog implements OnInit {
       this.loadUserList();
       this.loadCardTag();
       this.loadCardAssign();
+      this.loadActivities();
+      this.isShow = false;
     }
   }
 
   @ViewChild('cardNameInput') cardNameInput;
   @ViewChild('todoNameInput') todoNameInput;
+  isShow: boolean;
 
   model: NgbDateStruct;
+  activities: ActivityModel[];
 
   businessId = this.data.businessId;
   projectId = this.data.projectId;
@@ -54,15 +60,28 @@ export class CardDialog implements OnInit {
   userList: UserModel[];
   cardTags: CardTag[];
   cardAssigns: CardAssign[];
-  priorityList: {id: number, text: string}[] = [
-    {id: PriorityEnum.Normal, text: 'Normal'},
-    {id: PriorityEnum.Urgent, text: 'Urgent'}];
+  priorityList: { id: number; text: string }[] = [
+    { id: PriorityEnum.Normal, text: 'Normal' },
+    { id: PriorityEnum.Urgent, text: 'Urgent' },
+  ];
+
+  showActivity() {
+    this.isShow = !this.isShow;
+  }
 
   //  load-list
+  loadActivities() {
+    this.service
+      .getAll<ActivityModel>(`activities/card/${this.card.id}`)
+      .subscribe((data) => (this.activities = data));
+  }
   loadTodoList() {
     this.service
       .getAll<TodoModel>(`card/${this.card.id}/todos`)
-      .subscribe((data) => (this.todoList = data));
+      .subscribe((data) => {
+        this.todoList = data;
+        this.loadActivities();
+      });
   }
   loadTagList() {
     this.service
@@ -116,23 +135,29 @@ export class CardDialog implements OnInit {
   }
 
   updateDescription() {
+    if (this.card.description == null) return;
     this.service
       .put<CardModel>(
         `cards/${this.card.id}/description`,
         `"${this.card.description}"`
       )
-      .subscribe();
+      .subscribe(result => {
+        this.loadActivities()
+      });
   }
   updateDuedate() {
     if (!this.model) return;
-    const jsDate = new Date(this.model.year, this.model.month -1, this.model.day);
+    const jsDate = new Date(
+      this.model.year,
+      this.model.month - 1,
+      this.model.day
+    );
     this.service
       .put<CardModel>(`cards/${this.card.id}/duedate`, `"${jsDate.toJSON()}"`)
-      .subscribe();
-
-    var self = this.card;
-    self.duedate = jsDate.toJSON();
-    return self;
+      .subscribe((result) => {
+        this.card.duedate = jsDate.toJSON();
+        this.loadActivities();
+      });
   }
 
   updatePriority(priorityId: number) {
@@ -141,23 +166,22 @@ export class CardDialog implements OnInit {
     // var priorityId = PriorityEnum[priorityName];
     this.service
       .put<CardModel>(`cards/${this.card.id}/priority`, priorityId)
-      .subscribe(id => {
+      .subscribe((id) => {
         this.card.priority = priorityId;
+        this.loadActivities();
         //Create angular lookup pipe, TO show priority name by id
       });
     // this.cardPriorityValue = priorityName;
   }
 
-
-  removeCardAssign(e : Event, userId: number){
+  removeCardAssign(e: Event, userId: number) {
     e.stopPropagation();
     // Remove CardAssign
     this.service
-    // .put<CardModel>(`cards/${this.card.id}/priority`, priorityId)
-    // .subscribe(id => {
-    //   this.card.priority = priorityId;
-    // });
-
+      .delete<CardAssign>(`card/${this.card.id}/user/${userId}`)
+      .subscribe((id) => {
+        this.loadCardAssign();
+      });
   }
 
   @HostListener('document:click', ['$event'])
@@ -169,7 +193,9 @@ export class CardDialog implements OnInit {
     } else {
       this.service // Click outside
         .put<CardModel>(`cards/${this.card.id}/name`, `"${this.card.name}"`)
-        .subscribe();
+        .subscribe(result => {
+          // this.loadActivities();
+        });
     }
   }
 

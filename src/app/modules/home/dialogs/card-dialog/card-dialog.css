@@ -2,6 +2,10 @@
   background-color: #edeff0 !important;
 }
 
+.cdk-overlay-pane.cardDialog{
+  overflow: auto;
+}
+
 .card-container {
   padding: 0 15px;
 }
@@ -64,6 +68,10 @@ p {
 .caption {
   font-size: 16px;
   font-weight: 600;
+}
+.caption i{
+  background-color: transparent;
+  margin-right: 8px;
 }
 .description-content {
   background-color: white;
@@ -162,4 +170,7 @@ p {
 }
 .removeCardAssignBtn:hover{
   background-color: #ddd;
+}
+.activities-container{
+  /* background-color: red; */
 }
