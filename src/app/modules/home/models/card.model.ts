@@ -1,4 +1,4 @@
-import { PriorityEnum } from "../../shared/models/priority.enum";
+import { PriorityEnum } from "./enums/priority.enum";
 
 export class CardModel{
     id: number;

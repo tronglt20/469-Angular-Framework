@@ -1,35 +1,20 @@
-<div class="container">
-  <h3 class="d-flex justify-content-center mt-3">Projects Manager</h3>
-
-  <hr />
-
-  <div class="projects">
-    <ng-container *ngFor="let project of projectList">
-      <app-project
-        class="project"
-        [project]="project"
-        style="cursor: pointer"
-        (projectSelected)="deleteProject($event)"
-      ></app-project>
-    </ng-container>
-  </div>
-
-  <hr />
-  <div class="dropdown">
-    <div class="addProjectBtn" data-toggle="dropdown">Add Project</div>
-    <div class="dropdown-menu">
-      <div class="popup-header">Name</div>
-      <div class="dropdown-divider"></div>
-      <input type="text" class="project-input-popup" #projectNameInputPopup />
-      <button
-        class="add-button mt-3 btn btn-primary"
-        (click)="
-          addProject(projectNameInputPopup.value);
-          projectNameInputPopup.value = ''
-        "
-      >
-        Add
-      </button>
-    </div>
+<!-- As a heading -->
+<div class="header-container">
+  <div class="container">
+    <nav class="navbar navbar-light">
+      <div class="nav-link" routerLink="/home">Home</div>
+      <div *ngIf="!currentUser" class="auth d-flex">
+        <div  class="nav-link me-3" routerLink="/auth/login">Login</div>
+        <div  class="nav-link" routerLink="/auth/register">Register</div>
+      </div>
+      <div *ngIf="currentUser" class="d-flex" >
+        <div class="nav-link me-3">{{ currentUser.email }}</div>
+        <div class="nav-link" (click)="logout()">Logout</div>
+      </div>
+    </nav>
   </div>
 </div>
+<app-projects></app-projects>
+<router-outlet>
+  
+</router-outlet>

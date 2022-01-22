@@ -1,15 +1,15 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { ActionEnum } from '../../shared/models/action.enum';
+import { ActionEnum } from '../models/enums/action.enum';
 
 @Pipe({
   name: 'actionLookup',
 })
 export class ActionLookupPipe implements PipeTransform {
-  transform(value: number, previousValue: string, currentValue: string): string {
+  transform(value: ActionEnum, previousValue: string, currentValue: string): string {
     switch (value) {
-      case 1:
+      case ActionEnum.Create:
         return `created this task`;
-      case 2:
+      case ActionEnum.UpdateName:
         return `renamed this task to ${currentValue}`;
       case 3:
         return `moved this task from ${previousValue} to ${currentValue}`;
@@ -20,7 +20,7 @@ export class ActionLookupPipe implements PipeTransform {
       case 6:
         return `updated the description`;
       case 7:
-        return `set due date on ${currentValue}`;
+        return `Set due date on ${currentValue}`;
       case 8:
         return 'deleted this card';
       case 9:

@@ -1,0 +1,37 @@
+<div class="container">
+  <h3 class="d-flex justify-content-center mt-3">Projects Manager</h3>
+
+  <hr />
+
+  <div *ngIf="currentUser" class="projects">
+    <ng-container *ngFor="let project of projectList">
+      <!-- Project Item  -->
+      <div class="project" style="cursor: pointer">
+        <div routerLink="project/{{ project.id }}">
+          <div>{{ project.id }}. {{ project.name }}</div>
+          <br />
+        </div>
+        <button class="btn btn-danger" (click)="deleteProject(project)">
+          X
+        </button>
+      </div>
+    </ng-container>
+  </div>
+  <div class="dropdown mt-4">
+    <div class="addProjectBtn" data-toggle="dropdown">Add Project</div>
+    <div class="dropdown-menu">
+      <div class="popup-header">Name</div>
+      <div class="dropdown-divider"></div>
+      <input type="text" class="project-input-popup" #projectNameInputPopup />
+      <button
+        class="add-button mt-3 btn btn-primary"
+        (click)="
+          addProject(projectNameInputPopup.value);
+          projectNameInputPopup.value = ''
+        "
+      >
+        Add
+      </button>
+    </div>
+  </div>
+</div>

@@ -1,12 +1,9 @@
-import {
-  Component,
-  DoCheck,
-  HostListener,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { AuthenticationService } from '../../auth/services/authentication.service';
+import { LoggedUserService } from '../../auth/services/logged-user.service';
+import { UserModel } from '../../shared/models/user.model';
 import { SharedService } from '../../shared/services/shared.services';
-import { ProjectModel } from '../models/project.model';
 
 @Component({
   selector: 'app-home',
@@ -14,39 +11,22 @@ import { ProjectModel } from '../models/project.model';
   styleUrls: ['./home.component.css'],
 })
 export class HomeComponent implements OnInit {
-  constructor(private service: SharedService) {}
+  currentUser: UserModel;
+
+  constructor(
+    private router: Router,
+    private authenticationService: AuthenticationService,
+  ) {
+    this.authenticationService.currentUser.subscribe(
+      (x) => (this.currentUser = x)
+    );
+  }
 
   ngOnInit(): void {
-    this.loadProjectList();
   }
 
-  projectList: ProjectModel[];
-
-  loadProjectList() {
-    this.service
-      .getAll<ProjectModel>('project')
-      .subscribe((data) => (this.projectList = data));
-  }
-  funct: Function;
-
-  deleteProject(selected) {
-    this.service.delete<ProjectModel>(`project/${selected.id}`).subscribe({
-      next: (result) => {
-        this.loadProjectList();
-      },
-      error: (error) => {
-        console.log(error);
-      },
-    });
-  }
-
-  addProject(name: string) {
-    name = name.trim();
-    if (!name) return;
-    this.service
-      .post<ProjectModel>('project', `"${name}"`)
-      .subscribe((project) => {
-        this.loadProjectList();
-      });
+  logout() {
+    this.authenticationService.logout();
+    this.router.navigate(['/home']);
   }
 }

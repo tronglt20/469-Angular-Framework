@@ -62,7 +62,7 @@
                 />
                 <div ngbDropdownMenu>
                   <div ngbDropdownItem class="d-flex">
-                    {{cardAssign.userEmail}}
+                    {{cardAssign.email}}
                     <button
                       class="removeCardAssignBtn"
                       (click)="removeCardAssign($event, cardAssign.assignTo)"
@@ -85,7 +85,7 @@
                     class="d-flex"
                   >
                     <img src="{{user.imagePath}}" class="me-2 user-avt" />
-                    {{user.name}}
+                    {{user.email}}
                   </button>
                 </ng-container>
               </div>
@@ -241,7 +241,7 @@
               class="d-flex"
             >
               <img src="{{user.imagePath}}" class="me-2 user-avt" />
-              {{user.name}}
+              {{user.email}}
             </button>
           </ng-container>
         </div>

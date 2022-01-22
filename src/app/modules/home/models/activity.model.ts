@@ -1,4 +1,4 @@
-import { ActionEnum } from "../../shared/models/action.enum";
+import { ActionEnum } from "./enums/action.enum";
 
 export class ActivityModel{
     id: number;

@@ -4,7 +4,7 @@ export class CardAssign{
     assignTo: number;
 
     userName: string;
-    userEmail: string;
+    email: string;
     imagePath: string;
 
     public constructor(init?: Partial<CardAssign>) {

@@ -1,7 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { SharedService } from 'src/app/modules/shared/services/shared.services';
 import { ActivityModel } from '../../models/activity.model';
-import { UserModel } from '../../models/user.model';
+import { UserModel } from '../../../shared/models/user.model';
+import { ActionEnum } from '../../models/enums/action.enum';
 
 @Component({
   selector: 'app-activity',
@@ -9,7 +10,9 @@ import { UserModel } from '../../models/user.model';
   styleUrls: ['./activity.component.css']
 })
 export class ActivityComponent implements OnInit {
-  @Input() activity : ActivityModel
+  @Input() activity : ActivityModel;
+
+  ActionType = ActionEnum;
   constructor(private service: SharedService) { }
 
   ngOnInit(): void {

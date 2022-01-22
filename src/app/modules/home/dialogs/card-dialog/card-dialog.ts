@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { NgbCalendar, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
-import { PriorityEnum } from 'src/app/modules/shared/models/priority.enum';
+import { PriorityEnum } from 'src/app/modules/home/models/enums/priority.enum';
 import { SharedService } from 'src/app/modules/shared/services/shared.services';
 import { ActivityModel } from '../../models/activity.model';
 import { CardModel } from '../../models/card.model';
@@ -17,7 +17,8 @@ import { CardAssign } from '../../models/cardAssign.model';
 import { CardTag } from '../../models/cardTag.model';
 import { TagModel } from '../../models/tag.model';
 import { TodoModel } from '../../models/todo.model';
-import { UserModel } from '../../models/user.model';
+import { UserModel } from '../../../shared/models/user.model';
+import { finalize } from 'rxjs';
 
 @Component({
   selector: 'card-dialog',
@@ -40,7 +41,6 @@ export class CardDialog implements OnInit {
       this.loadUserList();
       this.loadCardTag();
       this.loadCardAssign();
-      this.loadActivities();
       this.isShowActivity = false;
       this.isReadOnly = true;
     }
@@ -49,9 +49,9 @@ export class CardDialog implements OnInit {
   @ViewChild('cardNameInput') cardNameInput;
   @ViewChild('todoNameInput') todoNameInput;
 
-  isShowActivity: boolean;
+  isShowActivity: boolean = false;
   isReadOnly: boolean;
-
+  isActivityLoading: boolean = false;
   model: NgbDateStruct;
   activities: ActivityModel[];
 
@@ -70,6 +70,10 @@ export class CardDialog implements OnInit {
 
   showActivity() {
     this.isShowActivity = !this.isShowActivity;
+    if (!this.isShowActivity) {
+      return;
+    }
+    this.loadActivities();
   }
   editDescription() {
     this.isReadOnly = !this.isReadOnly;
@@ -80,9 +84,17 @@ export class CardDialog implements OnInit {
 
   //  load-list
   loadActivities() {
+    if (!this.isShowActivity) {
+      return;
+    }
+
+    this.isActivityLoading = true;
     this.service
       .getAll<ActivityModel>(`activities/card/${this.card.id}`)
-      .subscribe((data) => (this.activities = data));
+      .pipe(finalize(() => (this.isActivityLoading = false)))
+      .subscribe((data) => {
+        this.activities = data;
+      });
   }
   loadTodoList() {
     this.service
@@ -98,9 +110,9 @@ export class CardDialog implements OnInit {
       .subscribe((data) => (this.tagList = data));
   }
   loadUserList() {
-    this.service
-      .getAll<UserModel>(`users`)
-      .subscribe((data) => (this.userList = data));
+    this.service.getAll<UserModel>(`users`).subscribe((data) => {
+      this.userList = data;
+    });
   }
   // end-load-list
 
@@ -128,7 +140,7 @@ export class CardDialog implements OnInit {
   }
   addCardAssign(userId: number) {
     this.service
-      .post<CardAssign>(`card/${this.card.id}/user`, userId)
+      .post<CardAssign>(`card/${this.card.id}/user`, `"${userId}"`)
       .subscribe((result) => {
         this.loadCardAssign();
         this.loadActivities();
@@ -187,7 +199,7 @@ export class CardDialog implements OnInit {
   }
 
   updatePriority(priorityId: number) {
-    if(priorityId == this.card.priority) return;
+    if (priorityId == this.card.priority) return;
     // console.log(priorityName)
     // if (priorityName == this.cardPriorityValue) return;
     // var priorityId = PriorityEnum[priorityName];
@@ -201,12 +213,12 @@ export class CardDialog implements OnInit {
     // this.cardPriorityValue = priorityName;
   }
 
-  removeCardAssign(e: Event, userId: number) {
+  removeCardAssign(e: Event, userId: string) {
     e.stopPropagation();
     // Remove CardAssign
     this.service
       .delete<CardAssign>(`card/${this.card.id}/user/${userId}`)
-      .subscribe((id) => {
+      .subscribe((result) => {
         this.loadCardAssign();
         this.loadActivities();
       });
@@ -215,26 +227,27 @@ export class CardDialog implements OnInit {
   removeCardTag(e: Event, tagId: number) {
     this.service
       .delete<CardTag>(`card/${this.card.id}/tag/${tagId}`)
-      .subscribe((id) => {
+      .subscribe((result) => {
         this.loadCardTag();
         this.loadActivities();
       });
   }
 
-  @HostListener('document:click', ['$event'])
-  clickout(event) {
-    if (!this.card) return;
-    // Update card name
-    if (this.cardNameInput.nativeElement.contains(event.target)) {
-      // Click inside
-    } else {
-      this.service // Click outside
-        .put<CardModel>(`cards/${this.card.id}/name`, `"${this.card.name}"`)
-        .subscribe((result) => {
-          // this.loadActivities();
-        });
-    }
-  }
+  // Update Card Name
+  // @HostListener('document:click', ['$event'])
+  // clickout(event) {
+  //   if (!this.card) return;
+  //   // Update card name
+  //   if (this.cardNameInput.nativeElement.contains(event.target)) {
+  //     // Click inside
+  //   } else {
+  //     this.service // Click outside
+  //       .put<CardModel>(`cards/${this.card.id}/name`, `"${this.card.name}"`)
+  //       .subscribe((result) => {
+  //         // this.loadActivities();
+  //       });
+  //   }
+  // }
 
   onNoClick(): void {
     this.dialogRef.close();
