@@ -3,7 +3,7 @@ import { ActionEnum } from "./enums/action.enum";
 export class ActivityModel{
     id: number;
     cardId: number;
-    userId: number;
+    userId: string;
     action: ActionEnum;
     currentValue: string;
     previousValue: string;

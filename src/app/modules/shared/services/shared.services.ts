@@ -4,9 +4,7 @@ import {
   HttpHeaders,
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
-import { catchError, Observable, observable, throwError } from 'rxjs';
-import { LoggedUserService } from '../../auth/services/logged-user.service';
+import { catchError, Observable, throwError } from 'rxjs';
 import { AppStorage } from '../utilities/app-storage';
 
 @Injectable({
@@ -16,7 +14,7 @@ export class SharedService {
   readonly APIUrl = 'https://localhost:44396/api';
   
   get accessToken(): string {
-    return AppStorage.getTokenData('currentUser');
+    return AppStorage.getTokenData('accessToken');
   }
 
   get headerAuthorizationKey(): string {
@@ -36,7 +34,6 @@ export class SharedService {
   }
 
   constructor(private http: HttpClient) {
-    console.log(this.accessToken);
   }
 
   getAll<T>(url: string): Observable<T[]> {
@@ -45,7 +42,7 @@ export class SharedService {
       .pipe(catchError((error) => this.handleError(error, url)));
   }
 
-  getById<T>(url: string, id: number): Observable<T> {
+  getById<T>(url: string, id: any): Observable<T> {
     return this.http
       .get<T>(`${this.APIUrl}/${url}/${id}`, this.httpOptions)
       .pipe(catchError((error) => this.handleError(error, url)));

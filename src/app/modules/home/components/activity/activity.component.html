@@ -5,8 +5,16 @@
     </div>
     <div class="main d-flex flex-column">
       <div class="d-flex">
-        <ng-container *ngIf="activity.action === ActionType.AssignUser; else task">
-          <div>{{ user.userName }} {{ activity.action | userLookup: activity.previousValue: activity.currentValue }}</div>
+        <ng-container>
+          <div class="d-flex">
+            {{ user.userName }}
+            <div
+              innerHTML="{{
+                activity.action
+                  | actionLookup: activity.previousValue:activity.currentValue
+              }}"
+            ></div>
+          </div>
         </ng-container>
       </div>
       <div class="time">
@@ -16,4 +24,3 @@
   </div>
   <hr />
 </div>
-

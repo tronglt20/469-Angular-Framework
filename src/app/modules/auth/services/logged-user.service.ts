@@ -1,21 +1,28 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { UserModel } from '../../shared/models/user.model';
-import { AuthenticationService } from './authentication.service';
 
 @Injectable({ providedIn: 'root' })
 export class LoggedUserService {
-  private _currentUser: UserModel;
+  private _currentUser: BehaviorSubject<UserModel> = new BehaviorSubject(null);
 
-  constructor(private authenticationService: AuthenticationService) {
-    this.authenticationService.currentUser.subscribe(
-      (x) => (this._currentUser = x)
-    );
+  constructor() {}
+
+  get currentUser(): Observable<UserModel> {
+    return this._currentUser.asObservable();
+  }
+
+  setLoggedUser(user: UserModel) {
+    this._currentUser.next(user);
+  }
+
+  get loggedUserId(): string {
+    const user = this._currentUser.getValue();
+    return user ? user.id : null;
   }
 
   get loggedUser(): UserModel {
-    return this._currentUser;
+    const user = this._currentUser.getValue();
+    return user ? user : null;
   }
-
-  
 }

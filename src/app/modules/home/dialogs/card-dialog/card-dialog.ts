@@ -248,6 +248,10 @@ export class CardDialog implements OnInit {
   //       });
   //   }
   // }
+  getActivityUser(userId : string): UserModel {
+    var user = this.userList?.find(user => user.id == userId);
+    return user;
+  }
 
   onNoClick(): void {
     this.dialogRef.close();

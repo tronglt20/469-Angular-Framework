@@ -14,6 +14,7 @@ import { BusinessModel } from '../../models/business.model';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { TagDialog } from '../../dialogs/tag-dialog/tag-dialog.component';
 import { BusinessDialog } from '../../dialogs/business-dialog/business-dialog';
+import { UserModel } from 'src/app/modules/shared/models/user.model';
 
 @Component({
   selector: 'app-project-detail',
@@ -26,15 +27,15 @@ export class ProjectDetailComponent implements OnInit {
     private route: ActivatedRoute,
     private service: SharedService,
     private location: Location,
-    private matDialog: MatDialog,
-  ) {
-  }
+    private matDialog: MatDialog
+  ) {}
 
   ngOnInit(): void {
     this.loadProjectDetail();
     this.loadBusinessList();
+    this.getAllUsers();
   }
-
+  users: UserModel[];
   project: ProjectModel;
   // Get project id from URL
   projectRouteId = Number(this.route.snapshot.paramMap.get('id'));
@@ -43,7 +44,7 @@ export class ProjectDetailComponent implements OnInit {
 
   @ViewChild('projectNameInput') projectNameInput;
 
-  loadProjectDetail() {    
+  loadProjectDetail() {
     this.service
       .getById<ProjectModel>('projects', this.projectRouteId)
       .subscribe((data) => (this.project = data));
@@ -73,6 +74,12 @@ export class ProjectDetailComponent implements OnInit {
       width: '50vh',
       height: '50vh',
       data: { id: this.project.id },
+    });
+  }
+
+  getAllUsers() {
+    this.service.getAll<UserModel>('users').subscribe((data) => {
+      this.users = data;
     });
   }
 

@@ -5,31 +5,36 @@ import { ActionEnum } from '../models/enums/action.enum';
   name: 'actionLookup',
 })
 export class ActionLookupPipe implements PipeTransform {
-  transform(value: ActionEnum, previousValue: string, currentValue: string): string {
+  transform(
+    value: ActionEnum,
+    previousValue: string,
+    currentValue: string
+  ): string {
     switch (value) {
       case ActionEnum.Create:
-        return `created this task`;
+        // return `created this task`;
+        return `<div> created this task</div>`;
       case ActionEnum.UpdateName:
-        return `renamed this task to ${currentValue}`;
-      case 3:
-        return `moved this task from ${previousValue} to ${currentValue}`;
-      case 4:
-        return `reorder this task on ${currentValue}`;
-      case 5:
+        return `<div>renamed this task to ${currentValue}</div>`;
+      case ActionEnum.UpdateBusiness:
+        return `<div>moved this task from <p>${previousValue}</p> to <p>${currentValue}</p></div>`;
+      case ActionEnum.ReOrder:
+        return `<div>reorder this task on <p>${currentValue}</p></div>`;
+      case ActionEnum.UpdatePriority:
         return `set ${currentValue} for this task`;
-      case 6:
+      case ActionEnum.UpdateDescription:
         return `updated the description`;
-      case 7:
+      case ActionEnum.UpdateDuedate:
         return `Set due date on ${currentValue}`;
-      case 8:
+      case ActionEnum.Delete:
         return 'deleted this card';
-      case 9:
-        return `assigned ${currentValue} to this task`;
-      case 10:
+      case ActionEnum.AssignUser:
+        return `<div>assigned ${currentValue} to this task </div>`;
+      case ActionEnum.RemoveAssignUser:
         return `removed ${currentValue} from this task`;
-      case 11:
+      case ActionEnum.AddLabel:
         return `set label ${currentValue} for this task`;
-      case 12:
+      case ActionEnum.RemoveLabel:
         return `removed label ${currentValue} from this task`;
       default:
         console.log('No such value exists!');

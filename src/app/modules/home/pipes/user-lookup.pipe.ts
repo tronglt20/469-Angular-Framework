@@ -6,16 +6,10 @@ import { UserModel } from '../../shared/models/user.model';
   name: 'userLookup',
 })
 export class UserLookupPipe implements PipeTransform {
-  constructor(private service: SharedService) {}
 
-  
-  transform(userId: number) {
-    // let user: UserModel;
-    // this.service.getById<UserModel>(`users`, userId).subscribe((data) => {
-    //   user = data;
-    // });
+  transform(userId: string, users: UserModel[]): string {
+    var user = users?.find(user => user.id == userId)
 
-    // return user.name;
+    return user ? user.userName : null;
   }
-
 }

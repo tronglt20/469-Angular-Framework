@@ -1,24 +1,32 @@
+import { CursorError } from '@angular/compiler/src/ml_parser/lexer';
 import { Injectable } from '@angular/core';
-import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
+import {
+  Router,
+  CanActivate,
+  ActivatedRouteSnapshot,
+  RouterStateSnapshot,
+} from '@angular/router';
 import { AuthenticationService } from './authentication.service';
-
+import { LoggedUserService } from './logged-user.service';
 
 @Injectable({ providedIn: 'root' })
 export class AuthGuard implements CanActivate {
-    constructor(
-        private router: Router,
-        private authenticationService: AuthenticationService
-    ) { }
+  constructor(
+    private router: Router,
+    private authenticationService: AuthenticationService
+  ) {}
 
-    canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-        const currentUser = this.authenticationService.currentUserValue;
-        if (currentUser) {
-            // logged in so return true
-            return true;
-        }
+  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+    const currentUser = this.authenticationService.currentUserValue;
 
-        // not logged in so redirect to login page with the return url
-        this.router.navigate(['/auth/login'], { queryParams: { returnUrl: state.url } });
-        return false;
+    if (currentUser) {
+      // logged in so return true
+      return true;
     }
+    // not logged in so redirect to login page with the return url
+    this.router.navigate(['/auth/login'], {
+      queryParams: { returnUrl: state.url },
+    });
+    return false;
+  }
 }

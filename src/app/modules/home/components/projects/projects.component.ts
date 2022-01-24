@@ -5,6 +5,7 @@ import { ProjectModel } from '../../models/project.model';
 import { UserModel } from 'src/app/modules/shared/models/user.model';
 import { Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/modules/auth/services/authentication.service';
+import { map } from 'rxjs';
 
 @Component({
   selector: 'app-projects',
@@ -13,6 +14,7 @@ import { AuthenticationService } from 'src/app/modules/auth/services/authenticat
 })
 export class ProjectsComponent implements OnInit {
   currentUser: UserModel;
+
   constructor(
     private service: SharedService,
     private router: Router,
@@ -24,30 +26,20 @@ export class ProjectsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.loadProjectList();
+    if (this.currentUser) {
+      this.loadProjectList();
+    }
   }
 
   projectList: ProjectModel[];
 
   loadProjectList() {
-    if (!this.currentUser) {
-      this.projectList = [];
-      return;
-    }
-
-    this.service
-      .getAll<ProjectModel>('projects')
-      .subscribe((data) => (this.projectList = data));
-
+    this.service.getAll<ProjectModel>('projects').subscribe((data) => {
+      this.projectList = data;
+    });
   }
-  funct: Function;
 
   deleteProject(selected) {
-    if (!this.currentUser) {
-      this.router.navigate(['/auth/login']);
-      return;
-    }
-
     this.service.delete<ProjectModel>(`projects/${selected.id}`).subscribe({
       next: (result) => {
         this.loadProjectList();
@@ -59,11 +51,6 @@ export class ProjectsComponent implements OnInit {
   }
 
   addProject(name: string) {
-    if (!this.currentUser) {
-      this.router.navigate(['/auth/login']);
-      return;
-    }
-
     name = name.trim();
     if (!name) return;
     this.service
