@@ -1,25 +1,29 @@
 import { Pipe, PipeTransform } from '@angular/core';
+import { UserModel } from '../../shared/models/user.model';
 import { ActionEnum } from '../models/enums/action.enum';
+import { UserLookupPipe } from './user-lookup.pipe';
 
 @Pipe({
   name: 'actionLookup',
 })
 export class ActionLookupPipe implements PipeTransform {
+  userLookupPipe = new UserLookupPipe();
   transform(
     value: ActionEnum,
     previousValue: string,
-    currentValue: string
+    currentValue: string,
+    users: UserModel[]
   ): string {
     switch (value) {
       case ActionEnum.Create:
         // return `created this task`;
-        return `<div> created this task</div>`;
+        return `created this task`;
       case ActionEnum.UpdateName:
-        return `<div>renamed this task to ${currentValue}</div>`;
+        return `renamed this task to ${currentValue}`;
       case ActionEnum.UpdateBusiness:
-        return `<div>moved this task from <p>${previousValue}</p> to <p>${currentValue}</p></div>`;
+        return `moved this task from <p>${previousValue}</p> to <p>${currentValue}</p>`;
       case ActionEnum.ReOrder:
-        return `<div>reorder this task on <p>${currentValue}</p></div>`;
+        return `reorder this task on <p>${currentValue}</p>`;
       case ActionEnum.UpdatePriority:
         return `set ${currentValue} for this task`;
       case ActionEnum.UpdateDescription:
@@ -29,9 +33,9 @@ export class ActionLookupPipe implements PipeTransform {
       case ActionEnum.Delete:
         return 'deleted this card';
       case ActionEnum.AssignUser:
-        return `<div>assigned ${currentValue} to this task </div>`;
+        return `assigned ${this.userLookupPipe.transform(currentValue, users)} to this task `;
       case ActionEnum.RemoveAssignUser:
-        return `removed ${currentValue} from this task`;
+        return `removed ${this.userLookupPipe.transform(currentValue, users)} from this task`;
       case ActionEnum.AddLabel:
         return `set label ${currentValue} for this task`;
       case ActionEnum.RemoveLabel:

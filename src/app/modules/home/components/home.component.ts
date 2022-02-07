@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthenticationService } from '../../auth/services/authentication.service';
-import { LoggedUserService } from '../../auth/services/logged-user.service';
 import { UserModel } from '../../shared/models/user.model';
-import { SharedService } from '../../shared/services/shared.services';
 
 @Component({
   selector: 'app-home',
@@ -15,18 +13,20 @@ export class HomeComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private authenticationService: AuthenticationService,
+    private authenticationService: AuthenticationService
   ) {
     this.authenticationService.currentUser.subscribe(
       (x) => (this.currentUser = x)
     );
   }
 
-  ngOnInit(): void { 
-  }
+  ngOnInit(): void {}
 
   logout() {
     this.authenticationService.logout();
     this.router.navigate(['/home']);
+  }
+  helloWorld() {
+    alert('Hello world!');
   }
 }

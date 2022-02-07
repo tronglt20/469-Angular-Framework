@@ -1,11 +1,9 @@
 import { SharedService } from 'src/app/modules/shared/services/shared.services';
-import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ProjectModel } from '../../models/project.model';
 import { UserModel } from 'src/app/modules/shared/models/user.model';
 import { Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/modules/auth/services/authentication.service';
-import { map } from 'rxjs';
 
 @Component({
   selector: 'app-projects',
@@ -26,9 +24,7 @@ export class ProjectsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (this.currentUser) {
-      this.loadProjectList();
-    }
+    this.loadProjectList();
   }
 
   projectList: ProjectModel[];

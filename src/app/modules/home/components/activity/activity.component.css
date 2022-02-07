@@ -11,3 +11,6 @@
 p{
     display:  inline-block;
 }
+.tt{
+    display: flex;
+}

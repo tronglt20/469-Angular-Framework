@@ -4,7 +4,8 @@ import {
   HttpHeaders,
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, Observable, throwError } from 'rxjs';
+import { catchError, map, Observable, throwError } from 'rxjs';
+import { AuthenticatedRespone } from '../models/user.model';
 import { AppStorage } from '../utilities/app-storage';
 
 @Injectable({
@@ -66,9 +67,15 @@ export class SharedService {
       .pipe(catchError((error) => this.handleError(error, url)));
   }
 
+  refreshToken<T>(token: string): Observable<T> {
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+    };
+    return this.http.get<T>(`${this.APIUrl}/accounts/refresh/${token}`, httpOptions);
+  }
+
   private handleError(response: HttpErrorResponse, requestUrl?: string) {
-    //
-    if (response.status === 403) {
+       if (response.status === 403) {
       return throwError('Permission Denied');
     }
     //
@@ -90,7 +97,7 @@ export class SharedService {
       // The response body may contain clues as to what went wrong,
       console.error(
         `Backend returned code ${response.status}, ` +
-          `body was: ${response.error}`
+        `body was: ${response.error}` 
       );
     }
 

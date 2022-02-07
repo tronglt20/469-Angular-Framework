@@ -18,6 +18,7 @@ import { AuthGuard } from './services/auth.guard';
     RouterModule.forChild([
       {path: 'login', component: LoginComponent},
       {path: 'register', component: RegisterComponent},
+      
     ]),
     FormsModule,
     ReactiveFormsModule

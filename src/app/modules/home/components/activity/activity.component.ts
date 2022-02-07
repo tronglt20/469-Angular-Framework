@@ -15,6 +15,9 @@ export class ActivityComponent implements OnInit {
 
   @Input() user: UserModel;
 
+  @Input() users: UserModel[];
+
+
   constructor(private service: SharedService) {}
 
   ngOnInit(): void {

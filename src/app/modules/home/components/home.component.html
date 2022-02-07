@@ -14,7 +14,7 @@
     </nav>
   </div>
 </div>
-<app-projects></app-projects>
-<router-outlet>
-  
-</router-outlet>
+
+<ng-container *ngIf="currentUser">
+  <app-projects></app-projects>
+</ng-container>

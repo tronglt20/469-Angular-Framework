@@ -34,11 +34,11 @@ export class AuthenticationService {
     return this.service
       .post<AuthenticatedRespone>(`accounts/login`, loginModel)
       .pipe(
-        map((respone) => {
+        map((response) => {
           // store user details and jwt token in local storage to keep user logged in between page refreshes
           // localStorage.setItem('accessToken', JSON.stringify(user.accessToken));
-          AppStorage.storeTokenData('accessToken', respone.accessToken);
-          AppStorage.storeTokenData('refreshToken', respone.refreshToken);
+          AppStorage.storeTokenData('accessToken', response.accessToken);
+          AppStorage.storeTokenData('refreshToken', response.refreshToken);
 
           this.service
             .post<UserModel>(`users/current`, {})
@@ -49,6 +49,16 @@ export class AuthenticationService {
             });
         })
       );
+  }
+  refresh(refreshToken: string) {
+    return this.service.refreshToken<AuthenticatedRespone>(refreshToken).subscribe((response) => {
+      AppStorage.removeItem('accessToken');
+      AppStorage.removeItem('accessToken');
+
+      AppStorage.storeTokenData('accessToken', response.accessToken);
+      AppStorage.storeTokenData('refreshToken', response.refreshToken);
+    });
+
   }
 
   logout() {

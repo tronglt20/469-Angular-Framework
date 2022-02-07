@@ -10,7 +10,7 @@
         <p class="createdBy">Created By: {{ project.createdBy | userLookup : users }}</p>
       </div>
       <div class="pt-2">
-        <button class="btn btn-primary me-2" (click)="goBack()">Go back</button>
+        <button class="btn btn-primary me-2"  routerLink="/home">Go back</button>
         <button class="btn btn-primary me-2" (click)="addTagDialog()">
           Add Label
         </button>

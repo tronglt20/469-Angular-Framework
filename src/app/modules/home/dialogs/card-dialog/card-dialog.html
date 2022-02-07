@@ -191,7 +191,7 @@
           Activity
         </div>
         <ng-container *ngFor="let activity of activities">
-          <app-activity [activity]="activity" [user]="getActivityUser(activity.userId)"></app-activity>
+          <app-activity [activity]="activity" [user]="getActivityUser(activity.userId)" [users]="userList"></app-activity>
         </ng-container>
       </div>
       <!-- End activities  -->

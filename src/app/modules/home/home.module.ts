@@ -21,6 +21,8 @@ import { ActivityComponent } from './components/activity/activity.component';
 import { ActionLookupPipe } from './pipes/action-lookup.pipe';
 import { ProjectsComponent } from './components/projects/projects.component';
 import { AuthGuard } from '../auth/services/auth.guard';
+import { DxButtonModule } from 'devextreme-angular';
+
 
 @NgModule({
   declarations: [
@@ -38,6 +40,7 @@ import { AuthGuard } from '../auth/services/auth.guard';
     ActionLookupPipe,
   ],
   imports: [
+    DxButtonModule,
     FormsModule,
     CommonModule,
     RouterModule.forChild([
@@ -47,7 +50,6 @@ import { AuthGuard } from '../auth/services/auth.guard';
         component: ProjectDetailComponent,
         canActivate: [AuthGuard],
       },
-    
     ]),
     MatDialogModule,
     DragDropModule,

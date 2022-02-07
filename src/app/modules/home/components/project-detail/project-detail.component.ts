@@ -1,7 +1,5 @@
 import {
   Component,
-  ElementRef,
-  HostListener,
   OnInit,
   ViewChild,
   ViewEncapsulation,
@@ -26,7 +24,6 @@ export class ProjectDetailComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private service: SharedService,
-    private location: Location,
     private matDialog: MatDialog
   ) {}
 
@@ -56,9 +53,6 @@ export class ProjectDetailComponent implements OnInit {
       .subscribe((data) => (this.businessList = data));
   }
 
-  goBack() {
-    this.location.back();
-  }
 
   // Open dialog
   addBusinessDialog() {
