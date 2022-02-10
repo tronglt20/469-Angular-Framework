@@ -31,7 +31,6 @@ export class CardDialog implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any,
     public dialogRef: MatDialogRef<CardDialog>,
     private service: SharedService,
-    private calender: NgbCalendar
   ) {}
 
   ngOnInit(): void {

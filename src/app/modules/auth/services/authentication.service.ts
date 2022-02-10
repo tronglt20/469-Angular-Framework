@@ -51,14 +51,23 @@ export class AuthenticationService {
       );
   }
   refresh(refreshToken: string) {
-    return this.service.refreshToken<AuthenticatedRespone>(refreshToken).subscribe((response) => {
-      AppStorage.removeItem('accessToken');
-      AppStorage.removeItem('accessToken');
+    return this.service
+      .refreshToken<AuthenticatedRespone>(refreshToken)
+      .subscribe({
+        next: (response) => {
+          AppStorage.removeItem('accessToken');
+          AppStorage.removeItem('accessToken');
 
-      AppStorage.storeTokenData('accessToken', response.accessToken);
-      AppStorage.storeTokenData('refreshToken', response.refreshToken);
-    });
-
+          AppStorage.storeTokenData('accessToken', response.accessToken);
+          AppStorage.storeTokenData('refreshToken', response.refreshToken);
+          
+          console.log('refresh success');
+          location.reload();
+        },
+        error: (error) => {
+          console.log(error);
+        },
+      });
   }
 
   logout() {

@@ -11,27 +11,32 @@
           <div>{{ project.id }}. {{ project.name }}</div>
           <br />
         </div>
-        <button class="btn btn-danger" (click)="deleteProject(project)">
-          X
-        </button>
+        <dx-button
+          text="X"
+          class="btn btn-danger"
+          (click)="deleteProject(project)"
+        >
+        </dx-button>
       </div>
     </ng-container>
   </div>
+
   <div class="dropdown mt-4" *ngIf="currentUser">
     <div class="addProjectBtn" data-toggle="dropdown">Add Project</div>
     <div class="dropdown-menu">
       <div class="popup-header">Name</div>
       <div class="dropdown-divider"></div>
       <input type="text" class="project-input-popup" #projectNameInputPopup />
-      <button
+
+      <dx-button
         class="add-button mt-3 btn btn-primary"
-        (click)="
+        text="Add"
+        (onClick)="
           addProject(projectNameInputPopup.value);
           projectNameInputPopup.value = ''
         "
       >
-        Add
-      </button>
+      </dx-button>
     </div>
   </div>
 </div>

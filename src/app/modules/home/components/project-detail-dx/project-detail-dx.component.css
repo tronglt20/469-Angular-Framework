@@ -1,0 +1,126 @@
+.sortable-cards{
+  min-height: 100px;
+  /* overflow: auto; */
+  display: block;
+}
+
+.projectName:focus {
+  outline: none;
+  border: 1px solid #999;
+}
+.projectName {
+  background-color: transparent;
+  border: 0px solid;
+  font-size: 24px;
+  color: #333;
+  font-weight: 600;
+}
+.root {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.app-name {
+  font-size: 28px;
+  font-family: "Lato", sans-serif;
+  font-weight: bold;
+}
+
+.has-gradient-text {
+  background: -webkit-linear-gradient(#13f7f4, #2af598);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.board {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1; 
+
+  min-width: 0; 
+  min-height: 0;
+}
+
+.board-wrapper {
+  display: flex; 
+   flex-grow: 1; 
+   overflow-x: auto;
+}
+
+
+.board-columns {
+  display: flex;
+  flex-grow: 1;
+}
+
+.board-column {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  flex-basis: 0;
+  overflow: auto;
+
+  min-width: 300px;
+  max-width: 400px;
+  margin: 50px;
+  padding: 25px;
+
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.board-column.add {
+  padding: 0;
+  text-align: center;
+  min-width: 50px;
+  max-width: 50px;
+  max-height: 55px;
+  justify-content: center;
+  font-weight: 400;
+  font-size: 25px;
+  cursor: pointer;
+}
+
+.board-column:not(:first-child) {
+  margin-left: 0;
+}
+.column-title {
+  font-size: 20px;
+  font-weight: 800;
+  font-family: "Lato", sans-serif;
+  text-transform: uppercase;
+}
+
+.board-bar {
+  background: rgba(128, 128, 128, 0.5);
+  padding: 10px 30px;
+}
+.board-name {
+  font-size: 25px;
+  font-weight: bold;
+  color: white;
+}
+.createdBy {
+  font-size: 18px;
+}
+
+.tasks-container {
+  flex-grow: 1;
+  overflow-y: auto;
+}
+
+.task {
+  display: flex;
+  padding: 15px 12px;
+  background: white;
+  border-bottom: solid 1px #ddd;
+  border-radius: 4px;
+  margin-bottom: 15px;
+  cursor: pointer;
+  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.05),
+    0 3px 14px 2px rgba(0, 0, 0, 0.05);
+}
+
+
+

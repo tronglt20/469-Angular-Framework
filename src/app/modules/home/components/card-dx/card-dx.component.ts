@@ -4,11 +4,11 @@ import { CardDialog } from '../../dialogs/card-dialog/card-dialog';
 import { CardModel } from '../../models/card.model';
 
 @Component({
-  selector: 'app-card',
-  templateUrl: './card.component.html',
-  styleUrls: ['./card.component.css'],
+  selector: 'app-card-dx',
+  templateUrl: './card-dx.component.html',
+  styleUrls: ['./card-dx.component.css'],
 })
-export class CardComponent implements OnInit {
+export class CardDxComponent implements OnInit {
   constructor(private matDialog: MatDialog) {}
 
   ngOnInit(): void {}

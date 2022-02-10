@@ -3,7 +3,13 @@ import {
   moveItemInArray,
   transferArrayItem,
 } from '@angular/cdk/drag-drop';
-import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnInit,
+  ViewChild,
+  ViewEncapsulation,
+} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { SharedService } from 'src/app/modules/shared/services/shared.services';
 import { CardDialog } from '../../dialogs/card-dialog/card-dialog';
@@ -24,6 +30,7 @@ export class BusinessComponent implements OnInit {
   }
 
   cardList: CardModel[] = [];
+  popupVisible = false;
 
   constructor(private service: SharedService, private matDialog: MatDialog) {}
 
@@ -40,8 +47,32 @@ export class BusinessComponent implements OnInit {
       data: { businessId: this.business.id },
     });
     dialogRef.afterClosed().subscribe((result) => this.loadCardList());
-   
   }
+
+  showAddCardDialog() {
+    this.popupVisible = true;
+  }
+
+  addCardOption(name: string) {
+    name = name.trim();
+    if (!name) return;
+    this.service
+      .post<CardModel>(`business/${this.business.id}/cards`, `"${name}"`)
+      .subscribe((result) => {
+        this.popupVisible = false;
+        this.loadCardList();
+      });
+    // .subscribe({
+    //   next(result) {
+    //     this.popupVisible = false;
+    //     this.loadCardList();
+    //   },
+    //   error(msg) {
+    //     console.log(msg);
+    //   },
+    // });
+  }
+
 
   drop(event: CdkDragDrop<CardModel[]>) {
     // var, let, const
@@ -71,7 +102,7 @@ export class BusinessComponent implements OnInit {
         card.index = (previousCard?.index + nextCard?.index) / 2;
       }
 
-      var body :{busId: number, index: number} = {
+      var body: { busId: number; index: number } = {
         busId: this.business.id,
         index: card.index,
       };
@@ -100,7 +131,7 @@ export class BusinessComponent implements OnInit {
         card.index = (previousCard?.index + nextCard?.index) / 2;
       }
 
-      var body :{busId: number, index: number} = {
+      var body: { busId: number; index: number } = {
         busId: this.business.id,
         index: card.index,
       };

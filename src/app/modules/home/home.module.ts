@@ -21,11 +21,17 @@ import { ActivityComponent } from './components/activity/activity.component';
 import { ActionLookupPipe } from './pipes/action-lookup.pipe';
 import { ProjectsComponent } from './components/projects/projects.component';
 import { AuthGuard } from '../auth/services/auth.guard';
-import { DxButtonModule } from 'devextreme-angular';
+import { DxButtonModule, DxListModule, DxPopupModule, DxScrollViewModule, DxSortableModule, DxTemplateModule } from 'devextreme-angular';
+import { SidebarComponent } from './dialogs/card-dialog/sidebar/sidebar.component';
+import { ContentComponent } from './dialogs/card-dialog/content/content.component';
+import { ProjectDetailDxComponent } from './components/project-detail-dx/project-detail-dx.component';
+import { BusinessDxComponent } from './components/business-dx/business-dx.component';
+import { CardDxComponent } from './components/card-dx/card-dx.component';
 
 
 @NgModule({
   declarations: [
+    ProjectDetailDxComponent,BusinessDxComponent,CardDxComponent,
     HomeComponent,
     ProjectsComponent,
     ProjectDetailComponent,
@@ -38,16 +44,18 @@ import { DxButtonModule } from 'devextreme-angular';
     PriorityLookupPipe,
     ActivityComponent,
     ActionLookupPipe,
+    SidebarComponent,
+    ContentComponent,
   ],
   imports: [
-    DxButtonModule,
+    DxButtonModule,DxPopupModule,DxTemplateModule,DxListModule,DxScrollViewModule,DxSortableModule,
     FormsModule,
     CommonModule,
     RouterModule.forChild([
       { path: '', component: HomeComponent },
       {
         path: 'project/:id',
-        component: ProjectDetailComponent,
+        component: ProjectDetailDxComponent,
         canActivate: [AuthGuard],
       },
     ]),

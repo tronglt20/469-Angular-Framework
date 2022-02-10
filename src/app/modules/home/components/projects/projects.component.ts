@@ -5,6 +5,7 @@ import { UserModel } from 'src/app/modules/shared/models/user.model';
 import { Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/modules/auth/services/authentication.service';
 
+
 @Component({
   selector: 'app-projects',
   templateUrl: './projects.component.html',
