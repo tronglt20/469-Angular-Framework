@@ -69,7 +69,7 @@ export class BusinessDxComponent implements OnInit {
   onTaskDrop(e) {
     let card = e.itemData;
     // console.log('Drop');
-    console.log(e);
+    // console.log(e);
 
     e.fromData.splice(e.fromIndex, 1);
     e.toData.splice(e.toIndex, 0, e.itemData);

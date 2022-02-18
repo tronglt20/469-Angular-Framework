@@ -21,9 +21,9 @@ export class ActionLookupPipe implements PipeTransform {
       case ActionEnum.UpdateName:
         return `renamed this task to ${currentValue}`;
       case ActionEnum.UpdateBusiness:
-        return `moved this task from <p>${previousValue}</p> to <p>${currentValue}</p>`;
+        return `moved this task from ${previousValue} to ${currentValue}`;
       case ActionEnum.ReOrder:
-        return `reorder this task on <p>${currentValue}</p>`;
+        return `reorder this task on ${currentValue}`;
       case ActionEnum.UpdatePriority:
         return `set ${currentValue} for this task`;
       case ActionEnum.UpdateDescription:

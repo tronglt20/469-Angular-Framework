@@ -13,7 +13,7 @@ import { AppStorage } from '../utilities/app-storage';
 })
 export class SharedService {
   readonly APIUrl = 'https://localhost:44396/api';
-  
+
   get accessToken(): string {
     return AppStorage.getTokenData('accessToken');
   }
@@ -26,16 +26,15 @@ export class SharedService {
     return new HttpHeaders({
       'Content-Type': 'application/json',
       Accept: 'q=0.8;application/json;q=0.9',
-      Authorization: this.headerAuthorizationKey
+      Authorization: this.headerAuthorizationKey,
     });
   }
 
   get httpOptions() {
-    return {headers: this.headers};
+    return { headers: this.headers };
   }
 
-  constructor(private http: HttpClient) {
-  }
+  constructor(private http: HttpClient) {}
 
   getAll<T>(url: string): Observable<T[]> {
     return this.http
@@ -69,13 +68,25 @@ export class SharedService {
 
   refreshToken<T>(token: string): Observable<T> {
     let httpOptions = {
-      headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
     };
-    return this.http.get<T>(`${this.APIUrl}/accounts/refresh/${token}`, httpOptions);
+    return this.http.get<T>(
+      `${this.APIUrl}/accounts/refresh/${token}`,
+      httpOptions
+    );
+  }
+
+  login<T>(url: string, data: any): Observable<T> {
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+    };
+    return this.http
+      .post<T>(`${this.APIUrl}/${url}`, data, httpOptions)
+      .pipe(catchError((error) => this.handleError(error, url)));
   }
 
   private handleError(response: HttpErrorResponse, requestUrl?: string) {
-       if (response.status === 403) {
+    if (response.status === 403) {
       return throwError('Permission Denied');
     }
     //
@@ -97,7 +108,7 @@ export class SharedService {
       // The response body may contain clues as to what went wrong,
       console.error(
         `Backend returned code ${response.status}, ` +
-        `body was: ${response.error}` 
+          `body was: ${response.error}`
       );
     }
 

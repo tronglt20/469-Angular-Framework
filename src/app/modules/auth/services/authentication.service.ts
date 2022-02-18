@@ -32,7 +32,7 @@ export class AuthenticationService {
 
   login(loginModel: LoginModel) {
     return this.service
-      .post<AuthenticatedRespone>(`accounts/login`, loginModel)
+      .login<AuthenticatedRespone>(`accounts/login`, loginModel)
       .pipe(
         map((response) => {
           // store user details and jwt token in local storage to keep user logged in between page refreshes

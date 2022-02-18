@@ -27,6 +27,7 @@ import { ContentComponent } from './dialogs/card-dialog/content/content.componen
 import { ProjectDetailDxComponent } from './components/project-detail-dx/project-detail-dx.component';
 import { BusinessDxComponent } from './components/business-dx/business-dx.component';
 import { CardDxComponent } from './components/card-dx/card-dx.component';
+import { AdminRoleValidate } from './pipes/adminrole-validate';
 
 
 @NgModule({
@@ -42,6 +43,7 @@ import { CardDxComponent } from './components/card-dx/card-dx.component';
     TodoComponent,
     UserLookupPipe,
     PriorityLookupPipe,
+    AdminRoleValidate,
     ActivityComponent,
     ActionLookupPipe,
     SidebarComponent,

@@ -3,24 +3,29 @@
     <div class="column-title">{{ business.id }}. {{ business.name }}</div>
     <div class="count">{{ cardList.length }}</div>
   </div>
-  <dx-sortable
-    class="sortable-cards"
-    group="cardList"
-    [data]="cardList"
-    (onDragStart)="onTaskDragStart($event)"
-    (onReorder)="onTaskDrop($event)"
-    (onAdd)="onTaskDrop($event)"
-  >
-    <!-- Card -->
-    <div *ngFor="let card of cardList">
-      <app-card-dx [card]="card" [projectId]="business.projectId"></app-card-dx>
-    </div>
+  <dx-scroll-view showScrollbar="always"  direction="vertical">
+    <dx-sortable
+      class="sortable-cards"
+      group="cardList"
+      [data]="cardList"
+      (onDragStart)="onTaskDragStart($event)"
+      (onReorder)="onTaskDrop($event)"
+      (onAdd)="onTaskDrop($event)"
+    >
+      <!-- Card -->
+      <div *ngFor="let card of cardList">
+        <app-card-dx
+          [card]="card"
+          [projectId]="business.projectId"
+        ></app-card-dx>
+      </div>
+    </dx-sortable>
     <dx-button
       text="Add a task..."
       class="task addTask"
       (click)="showAddCardDialog()"
     ></dx-button>
-  </dx-sortable>
+  </dx-scroll-view>
 </div>
 
 <!-- Add Card (DevExtreme)  -->

@@ -1,13 +1,13 @@
-<div *ngIf="activity">
+<div>
   <div class="activity-item d-flex">
     <div class="aside">
-      <img class="userImg" src="{{ user.imagePath }}" />
+      <img class="userImg" src="{{ user?.imagePath }}" />
     </div>
     <div class="main d-flex flex-column">
       <ng-container>
         <div class="tt d-flex flex-row">
           <div>
-            {{ user.userName }}
+            {{ user?.email }}
           </div>
           <div>
             {{

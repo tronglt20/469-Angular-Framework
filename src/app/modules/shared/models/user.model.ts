@@ -3,6 +3,7 @@ export class UserModel {
   userName: string;
   email: string;
   imagePath: string;
+  role: string
   // accessToken?: string;
   // refreshToken?: string;
 

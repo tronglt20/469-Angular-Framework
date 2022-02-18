@@ -1,31 +1,39 @@
 <div class="root" *ngIf="project">
   <div class="board">
     <div class="board-bar d-flex">
-      <div>
-        <input
+      <div class="me-5">
+        <div class="projectName">{{ project.name }}</div>
+        <!-- <input
           class="projectName"
           [(ngModel)]="project.name"
           #projectNameInput
-        />
-        <p class="createdBy">Created By: {{ project.createdBy | userLookup : users }}</p>
+        /> -->
+        <p class="createdBy">
+          <!-- Created By: {{ project.createdBy | userLookup: users }} -->
+          Created By: {{ creator?.email }}
+        </p>
       </div>
       <div class="pt-2">
-        <button class="btn btn-primary me-2"  routerLink="/home">Go back</button>
-        <button class="btn btn-primary me-2" (click)="addTagDialog()">
-          Add Label
-        </button>
+        <button class="btn btn-primary me-2" routerLink="/home">Go back</button>
+        <ng-container *ngIf="currentUser.role | adminRoleValidate">
+          <button class="btn btn-primary me-2" (click)="addTagDialog()">
+            Add Label
+          </button>
+        </ng-container>
       </div>
     </div>
     <div class="board-wrapper">
       <!-- <dx-sortable  
         (onReorder)="onListReorder($event)"
       > -->
-        <div class="board-columns" >
-              <div *ngFor="let business of businessList">
-                <app-business-dx [business]="business" ></app-business-dx>   
-              </div>
-              <div class="board-column add" (click)="addBusinessDialog()">+</div>
-          </div>
+      <div class="board-columns">
+        <div *ngFor="let business of businessList">
+          <app-business-dx [business]="business"></app-business-dx>
+        </div>
+        <ng-containe *ngIf="currentUser.role | adminRoleValidate">
+          <div class="board-column add" (click)="addBusinessDialog()">+</div>
+        </ng-containe>
+      </div>
       <!-- </dx-sortable> -->
     </div>
   </div>

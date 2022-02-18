@@ -16,7 +16,6 @@ export class ProjectsComponent implements OnInit {
 
   constructor(
     private service: SharedService,
-    private router: Router,
     private authenticationService: AuthenticationService
   ) {
     this.authenticationService.currentUser.subscribe(

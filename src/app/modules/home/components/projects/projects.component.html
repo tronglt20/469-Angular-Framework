@@ -12,6 +12,7 @@
           <br />
         </div>
         <dx-button
+          *ngIf="currentUser.role | adminRoleValidate"
           text="X"
           class="btn btn-danger"
           (click)="deleteProject(project)"
@@ -21,7 +22,8 @@
     </ng-container>
   </div>
 
-  <div class="dropdown mt-4" *ngIf="currentUser">
+  <!-- <div class="dropdown mt-4" *ngIf="currentUser.role == 'SuperAdmin'"> -->
+  <div class="dropdown mt-4" *ngIf="currentUser.role | adminRoleValidate">
     <div class="addProjectBtn" data-toggle="dropdown">Add Project</div>
     <div class="dropdown-menu">
       <div class="popup-header">Name</div>

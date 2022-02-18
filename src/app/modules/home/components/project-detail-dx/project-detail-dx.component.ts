@@ -9,6 +9,7 @@ import { TagDialog } from '../../dialogs/tag-dialog/tag-dialog.component';
 import { BusinessDialog } from '../../dialogs/business-dialog/business-dialog';
 import { UserModel } from 'src/app/modules/shared/models/user.model';
 import { CardModel } from '../../models/card.model';
+import { AuthenticationService } from 'src/app/modules/auth/services/authentication.service';
 
 @Component({
   selector: 'app-project-detail-dx',
@@ -17,27 +18,27 @@ import { CardModel } from '../../models/card.model';
   encapsulation: ViewEncapsulation.None,
 })
 export class ProjectDetailDxComponent implements OnInit {
+  currentUser: UserModel;
+
   constructor(
     private route: ActivatedRoute,
     private service: SharedService,
-    private matDialog: MatDialog
+    private matDialog: MatDialog,
+    private authenticationService: AuthenticationService
   ) {
-    // this.businessList.forEach(business => {
-    //   this.service
-    //   .getAll<CardModel>(`business/${business.id}/cards`)
-    //   .subscribe((data) => {
-    //     this.cardLists.push(data);
-    //   });
-    // })
+    this.authenticationService.currentUser.subscribe(
+      (x) => (this.currentUser = x)
+    );
   }
 
   ngOnInit(): void {
     this.loadProjectDetail();
     this.loadBusinessList();
-    this.getAllUsers();
+    // this.getAllUsers();
   }
 
   users: UserModel[];
+  creator: UserModel;
   project: ProjectModel;
   // Get project id from URL
   projectRouteId = Number(this.route.snapshot.paramMap.get('id'));
@@ -50,7 +51,10 @@ export class ProjectDetailDxComponent implements OnInit {
   loadProjectDetail() {
     this.service
       .getById<ProjectModel>('projects', this.projectRouteId)
-      .subscribe((data) => (this.project = data));
+      .subscribe((data) => {
+        this.project = data;
+        this.getCreator();
+      });
   }
 
   loadBusinessList() {
@@ -58,7 +62,7 @@ export class ProjectDetailDxComponent implements OnInit {
       .getAll<BusinessModel>(`project/${this.projectRouteId}/businesses`)
       .subscribe((data) => {
         this.businessList = data;
-      })
+      });
   }
 
   // Open dialog
@@ -78,11 +82,19 @@ export class ProjectDetailDxComponent implements OnInit {
     });
   }
 
-  getAllUsers() {
-    this.service.getAll<UserModel>('users').subscribe((data) => {
-      this.users = data;
-    });
+  getCreator() {
+    this.service
+      .getById<UserModel>('users', this.project.createdBy)
+      .subscribe((data) => {
+        this.creator = data;
+      });
   }
+
+  // getAllUsers() {
+  //   this.service.getAll<UserModel>('users').subscribe((data) => {
+  //     this.users = data;
+  //   });
+  // }
 
   onListReorder(e) {
     console.log(e);
