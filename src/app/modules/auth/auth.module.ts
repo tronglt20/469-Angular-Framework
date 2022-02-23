@@ -21,7 +21,7 @@ import { AuthGuard } from './services/auth.guard';
       
     ]),
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule 
   ]
 })
 

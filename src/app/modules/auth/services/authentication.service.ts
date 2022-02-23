@@ -50,6 +50,7 @@ export class AuthenticationService {
         })
       );
   }
+
   refresh(refreshToken: string) {
     return this.service
       .refreshToken<AuthenticatedRespone>(refreshToken)
@@ -57,7 +58,6 @@ export class AuthenticationService {
         next: (response) => {
           AppStorage.removeItem('accessToken');
           AppStorage.removeItem('accessToken');
-
           AppStorage.storeTokenData('accessToken', response.accessToken);
           AppStorage.storeTokenData('refreshToken', response.refreshToken);
           
@@ -77,5 +77,6 @@ export class AuthenticationService {
     AppStorage.removeItem('currentUser');
 
     this.currentUserSubject.next(null);
+    // this.router.navigate(['/home']);
   }
 }
