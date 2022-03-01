@@ -21,18 +21,19 @@ import { ActivityComponent } from './components/activity/activity.component';
 import { ActionLookupPipe } from './pipes/action-lookup.pipe';
 import { ProjectsComponent } from './components/projects/projects.component';
 import { AuthGuard } from '../auth/services/auth.guard';
-import { DxButtonModule, DxListModule, DxPopupModule, DxScrollViewModule, DxSortableModule, DxTemplateModule } from 'devextreme-angular';
+import { DxButtonModule, DxDataGridModule, DxListModule, DxPopupModule, DxScrollViewModule, DxSortableModule, DxTemplateModule } from 'devextreme-angular';
 import { SidebarComponent } from './dialogs/card-dialog/sidebar/sidebar.component';
 import { ContentComponent } from './dialogs/card-dialog/content/content.component';
 import { ProjectDetailDxComponent } from './components/project-detail-dx/project-detail-dx.component';
 import { BusinessDxComponent } from './components/business-dx/business-dx.component';
 import { CardDxComponent } from './components/card-dx/card-dx.component';
 import { AdminRoleValidate } from './pipes/adminrole-validate';
+import { ProjectsDxComponent } from './components/projects-dx/projects-dx.component';
 
 
 @NgModule({
   declarations: [
-    ProjectDetailDxComponent,BusinessDxComponent,CardDxComponent,
+    ProjectDetailDxComponent,BusinessDxComponent,CardDxComponent,ProjectsDxComponent, 
     HomeComponent,
     ProjectsComponent,
     ProjectDetailComponent,
@@ -51,10 +52,14 @@ import { AdminRoleValidate } from './pipes/adminrole-validate';
   ],
   imports: [
     DxButtonModule,DxPopupModule,DxTemplateModule,DxListModule,DxScrollViewModule,DxSortableModule,
+    DxDataGridModule,
     FormsModule,
     CommonModule,
     RouterModule.forChild([
-      { path: '', component: HomeComponent },
+      { path: 'home', component: HomeComponent, children: [
+        {path: '', component: ProjectsComponent},
+        {path: 'projects', component: ProjectsDxComponent},
+      ] },
       {
         path: 'project/:id',
         component: ProjectDetailDxComponent,

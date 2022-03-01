@@ -5,7 +5,7 @@ import {
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, map, Observable, throwError } from 'rxjs';
-import { AuthenticatedRespone } from '../models/user.model';
+import { RefreshTokenRequest } from '../models/refreshtoken-request';
 import { AppStorage } from '../utilities/app-storage';
 
 @Injectable({
@@ -66,12 +66,12 @@ export class SharedService {
       .pipe(catchError((error) => this.handleError(error, url)));
   }
 
-  refreshToken<T>(token: string): Observable<T> {
+  refreshToken<T>(request: RefreshTokenRequest): Observable<T> {
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
     };
-    return this.http.get<T>(
-      `${this.APIUrl}/accounts/refresh/${token}`,
+    return this.http.post<T>(
+      `${this.APIUrl}/accounts/refresh`, request,
       httpOptions
     );
   }

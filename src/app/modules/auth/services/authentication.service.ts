@@ -9,7 +9,6 @@ import {
 } from '../../shared/models/user.model';
 import { SharedService } from '../../shared/services/shared.services';
 import { AppStorage } from '../../shared/utilities/app-storage';
-import { LoggedUserService } from './logged-user.service';
 
 @Injectable({
   providedIn: 'root',
@@ -19,6 +18,7 @@ export class AuthenticationService {
   public currentUser: Observable<UserModel>;
 
   constructor(private service: SharedService) {
+    // this.currentUserSubject.next(AppStorage.getCurrentUser('currentUser'))
     this.currentUserSubject = new BehaviorSubject<UserModel>(
       AppStorage.getCurrentUser('currentUser')
       // JSON.parse(localStorage.getItem('currentUser'))
@@ -51,24 +51,6 @@ export class AuthenticationService {
       );
   }
 
-  refresh(refreshToken: string) {
-    return this.service
-      .refreshToken<AuthenticatedRespone>(refreshToken)
-      .subscribe({
-        next: (response) => {
-          AppStorage.removeItem('accessToken');
-          AppStorage.removeItem('accessToken');
-          AppStorage.storeTokenData('accessToken', response.accessToken);
-          AppStorage.storeTokenData('refreshToken', response.refreshToken);
-          
-          console.log('refresh success');
-          location.reload();
-        },
-        error: (error) => {
-          console.log(error);
-        },
-      });
-  }
 
   logout() {
     // remove user from local storage to log user out

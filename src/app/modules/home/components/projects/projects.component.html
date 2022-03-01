@@ -7,23 +7,22 @@
     <ng-container *ngFor="let project of projectList">
       <!-- Project Item  -->
       <div class="project" style="cursor: pointer">
-        <div routerLink="project/{{ project.id }}">
+        <div routerLink="/project/{{ project.id }}">
           <div>{{ project.id }}. {{ project.name }}</div>
           <br />
         </div>
-        <dx-button
-          *ngIf="currentUser.role | adminRoleValidate"
+        <!-- <dx-button
+          *ngIf="currentUser?.role | adminRoleValidate"
           text="X"
           class="btn btn-danger"
           (click)="deleteProject(project)"
         >
-        </dx-button>
+        </dx-button> -->
       </div>
     </ng-container>
   </div>
 
-  <!-- <div class="dropdown mt-4" *ngIf="currentUser.role == 'SuperAdmin'"> -->
-  <div class="dropdown mt-4" *ngIf="currentUser.role | adminRoleValidate">
+  <!-- <div class="dropdown mt-4" *ngIf="currentUser?.role | adminRoleValidate">
     <div class="addProjectBtn" data-toggle="dropdown">Add Project</div>
     <div class="dropdown-menu">
       <div class="popup-header">Name</div>
@@ -40,5 +39,5 @@
       >
       </dx-button>
     </div>
-  </div>
+  </div> -->
 </div>
